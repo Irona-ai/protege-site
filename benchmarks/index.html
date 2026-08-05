@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmarks: three domains, full runs, including the failures</title>
+<meta name="description" content="Full results for Protégé across Zapier AutomationBench, a 30-task operations holdout, and a 39,962-row warehouse labeling run. n counts, standard deviations, cost accounting, and the runs that lost.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://protege.sh/benchmarks/">
+<meta property="og:title" content="Protégé benchmarks: three domains, full runs">
+<meta property="og:description" content="n counts, standard deviations, cost accounting, and the runs that lost.">
+<meta property="og:image" content="https://protege.sh/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="navSentinel" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="Protégé home">
+      <span class="mark" aria-hidden="true">P</span>
+      <span class="word">Protégé</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../#method">Method</a></li>
+        <li><a href="../#proof">Proof</a></li>
+        <li><a href="./">Benchmarks</a></li>
+        <li><a href="../#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="../#audit">Request a route audit</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="page-head">
+  <div class="wrap">
+    <h1 class="t-h2">Three domains, measured end to end.</h1>
+    <p class="lede">Each result below carries its n count, its standard deviation and its full cost accounting. Where a run lost, the losing number is printed next to the winning one, because a benchmark page that only reports wins is a marketing page.</p>
+  </div>
+</section>
+
+<!-- ── AUTOMATIONBENCH ────────────────────────────────────────────────────── -->
+<section class="bmk" id="automationbench">
+  <div class="wrap">
+    <h2 class="t-h4">Sales and CRM agents, on Zapier AutomationBench</h2>
+    <p class="bmk-sub">Two surfaces from the same benchmark: four reasoning-heavy API tasks, and seven write-heavy CRM tasks. Both scored with partial credit, both against a Sonnet 4.6 reference.</p>
+
+    <div class="bars">
+      <div class="barset">
+        <h3>Reasoning-heavy API tasks, 4 tasks, partial credit <span class="scale">bars run 0.00 to 0.50</span></h3>
+        <div class="bar">
+          <span class="who">Baseline</span>
+          <span class="track"><i class="fill" style="width:16.8%"></i><span class="val">0.084 &plusmn;0.073 &middot; <b>$0.095</b></span></span>
+        </div>
+        <div class="bar">
+          <span class="who">Sonnet 4.6</span>
+          <span class="track"><i class="fill" style="width:32%"></i><span class="val">0.160 &plusmn;0.009 &middot; <b>$0.707</b></span></span>
+        </div>
+        <div class="bar is-us">
+          <span class="who">Protégé optimized</span>
+          <span class="track"><i class="fill" style="width:62.6%"></i><span class="val">0.313 &plusmn;0.110 &middot; <b>$0.128</b> &middot; n=10</span></span>
+        </div>
+      </div>
+
+      <div class="barset">
+        <h3>Write-heavy CRM tasks, 7 tasks, partial credit <span class="scale">bars run 0.00 to 1.00</span></h3>
+        <div class="bar">
+          <span class="who">Baseline</span>
+          <span class="track"><i class="fill" style="width:40%"></i><span class="val">0.400 &plusmn;0.067 &middot; <b>$0.230</b></span></span>
+        </div>
+        <div class="bar">
+          <span class="who">Sonnet 4.6</span>
+          <span class="track"><i class="fill" style="width:55.7%"></i><span class="val">0.557 &plusmn;0.066 &middot; <b>$1.12</b></span></span>
+        </div>
+        <div class="bar is-us">
+          <span class="who">Protégé optimized</span>
+          <span class="track"><i class="fill" style="width:63%"></i><span class="val">0.630 &plusmn;0.087 &middot; n=10</span></span>
+        </div>
+      </div>
+    </div>
+
+    <p class="callout">The honest part: a bigger blind GEPA budget did not win. The 50-call autoresearch prompt landed at 0.252 &plusmn;0.144, below the run we shipped. The win came from reading the failed runs and writing small targeted adapters, not from spending more on search.</p>
+
+    <p class="footnote">Zapier AutomationBench, sales surface. Sonnet 4.6 reference. Qwen 3.6 Plus on Fireworks. GEPA with an Opus 4.7 reflection LM. max_steps=10, max_tokens=4096. Cost figures are measured spend for the scored run, not list price.</p>
+  </div>
+</section>
+
+<!-- ── OPERATIONS ─────────────────────────────────────────────────────────── -->
+<section class="bmk" id="operations">
+  <div class="wrap">
+    <h2 class="t-h4">Operations workflows, one rung at a time</h2>
+    <p class="bmk-sub">Most of the waste here was output-mode waste, not missing intelligence. Each row adds one rung to the row above it.</p>
+
+    <div class="table-scroll">
+      <table class="grid">
+        <caption class="sr-only">Eval score, latency and token burn by rung on a 30-task operations holdout</caption>
+        <thead>
+          <tr>
+            <th scope="col">Rung applied</th>
+            <th scope="col">Score</th>
+            <th scope="col">p50 latency</th>
+            <th scope="col">Eval tokens</th>
+            <th scope="col">Reduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Raw 8B, no prefill</th>
+            <td>0.9560</td><td>32.60s</td><td>1.39M</td><td class="n">Baseline</td>
+          </tr>
+          <tr>
+            <th scope="row">Plus JSON prefill, rung 3</th>
+            <td>0.9667</td><td>6.76s</td><td>74k</td><td class="y">18.8&times; fewer</td>
+          </tr>
+          <tr>
+            <th scope="row">Plus /no_think</th>
+            <td>0.9598</td><td>5.34s</td><td>38k</td><td class="y">36.5&times; fewer</td>
+          </tr>
+          <tr>
+            <th scope="row">SFT plus /no_think, rung 5</th>
+            <td class="us">0.9733</td><td class="us">5.52s</td><td class="us">39k</td><td class="us">+3.5pt strict pass</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kv">
+      <div>
+        <p class="k">p50 latency, 90 trajectories</p>
+        <p class="v">Sonnet API at 1.94s against 369 ms on a Fireworks-served 8B. A 5.2&times; gap on the same slice.</p>
+      </div>
+      <div>
+        <p class="k">Measured token cost, same slice</p>
+        <p class="v">$0.0400 on the Sonnet API against $0.0066 on the Fireworks 8B. A 6.0&times; gap.</p>
+      </div>
+      <div>
+        <p class="k">Where the misses went</p>
+        <p class="v">The remaining misses cluster rather than scatter, which is what makes them fixable. A clustered failure comes back as a repair map, not as noise.</p>
+      </div>
+    </div>
+
+    <p class="callout">A trainingless JSON scaffold scored 0.9667. Adding supervised fine-tuning on top moved the aggregate to 0.9733, a gain of 0.0066 in exchange for a full training run. Training first is the expensive wrong answer, and it is what most teams reach for first.</p>
+
+    <p class="footnote">30-task holdout, 25 samples per task, with a 90-trajectory production-style serving validation on Fireworks. Scores are against a Sonnet reference normalized to 1.0000 on the same bounded slice.</p>
+  </div>
+</section>
+
+<!-- ── LABELING ───────────────────────────────────────────────────────────── -->
+<section class="bmk" id="labeling">
+  <div class="wrap">
+    <h2 class="t-h4">Warehouse-scale labeling, 39,962 rows</h2>
+    <p class="bmk-sub">Work that was not economically viable at frontier prices becomes a feature you can run monthly. The full table was labeled three ways so the cheap run could be checked against the expensive ones.</p>
+
+    <div class="bars">
+      <div class="barset">
+        <h3>Full-table cost, all 39,962 rows <span class="scale">linear scale</span></h3>
+        <div class="bar is-us">
+          <span class="who">Protégé 30B</span>
+          <span class="track"><i class="fill" style="width:2%"></i><span class="val"><b>$2.82</b></span></span>
+        </div>
+        <div class="bar">
+          <span class="who">Sonnet</span>
+          <span class="track"><i class="fill" style="width:8.6%"></i><span class="val"><b>$12</b> &middot; 4.4&times; higher</span></span>
+        </div>
+        <div class="bar">
+          <span class="who">Opus</span>
+          <span class="track"><i class="fill" style="width:100%"></i><span class="val"><b>$140</b> &middot; 50&times; higher</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kv">
+      <div>
+        <p class="k">Agreement</p>
+        <p class="v">99.30% three-way agreement with Sonnet and Opus on the sparse theater-intent label. Cheap did not mean worse.</p>
+      </div>
+      <div>
+        <p class="k">Sparse label recall</p>
+        <p class="v">0.92% positives found, meaning 368 rows, against Sonnet's 0.90% at 360 and Opus's 1.01% at 405.</p>
+      </div>
+      <div>
+        <p class="k">Privacy</p>
+        <p class="v">Regulated data never left the warehouse. We needed only the problem shape: the domain, the label set, a few examples and the eval contract.</p>
+      </div>
+    </div>
+
+    <p class="footnote">39,962 non-empty YouTube comments in a Snowflake table, labeled three ways, with full cost accounting and disclosed cold-start caveats. Cost is measured spend for the complete pass, not a per-thousand-row extrapolation.</p>
+  </div>
+</section>
+
+<!-- ── METHOD NOTE ────────────────────────────────────────────────────────── -->
+<section class="bmk" id="method-note">
+  <div class="wrap">
+    <h2 class="t-h4">How we report</h2>
+    <p class="bmk-sub">Three rules, applied to every run on this page.</p>
+    <div class="kv">
+      <div>
+        <p class="k">Every number carries its spread</p>
+        <p class="v">Scores are published with standard deviations and the n count behind them. A score without a spread is an anecdote.</p>
+      </div>
+      <div>
+        <p class="k">Cost is measured, not listed</p>
+        <p class="v">Dollar figures are what the run actually spent, including the tokens burned by evaluation itself.</p>
+      </div>
+      <div>
+        <p class="k">Losing runs get printed</p>
+        <p class="v">The 0.252 &plusmn;0.144 GEPA result is on this page because it is the run that explains why the shipped one works.</p>
+      </div>
+    </div>
+
+    <p class="callout">Want this run against your own workflow? Send two months of inference spend and what currently counts as a correct answer. The audit comes back with the same accounting you see here.</p>
+
+    <p style="margin-top:28px"><a class="btn btn-primary" href="../#audit">Request a route audit</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="about">
+      <a class="brand" href="../" aria-label="Protégé home">
+        <span class="mark" aria-hidden="true">P</span>
+        <span class="word">Protégé</span>
+      </a>
+      <p>A protégé learns the master's job, then does it better and cheaper. We find the repeated part of your work and hand it back as a model you own.</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li><a href="../#method">Method</a></li>
+          <li><a href="../#how">How an engagement runs</a></li>
+          <li><a href="./">Benchmarks</a></li>
+          <li><a href="../#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:tushar@protege.sh">tushar@protege.sh</a></li>
+          <li><a href="../#audit">Request a route audit</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="wrap">
+    <div class="foot-base">
+      <span>&copy; 2026 Protégé</span>
+      <span>Router and prompt harness live &middot; SFT and RL in beta</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

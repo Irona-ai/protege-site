@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- Source for og.png. Rendered at 1200x630 with headless Chrome:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+       --headless --disable-gpu --window-size=1200,630 --default-background-color=00000000 \
+       --screenshot=assets/og.png assets/og.html -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: var(--bg-base);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 72px 80px;
+    position: relative;
+  }
+  body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(760px 480px at 108% -18%, rgba(250,93,25,.14), transparent 62%);
+  }
+  .og-brand { display: flex; align-items: center; gap: 14px; position: relative; }
+  .og-brand .mark { width: 44px; height: 44px; border-radius: 12px; font-size: 24px; }
+  .og-brand .word { font-size: 26px; }
+  h1 { font-size: 76px; line-height: 78px; letter-spacing: -.03em; font-weight: 700; max-width: 15ch; position: relative; }
+  .og-sub { margin-top: 24px; font-size: 24px; line-height: 34px; color: var(--black-a56); max-width: 44ch; position: relative; }
+  .og-foot {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 26px;
+    border-top: 1px solid var(--border-muted);
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--black-a40);
+  }
+  .og-foot b { color: var(--heat-100); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="brand og-brand">
+    <span class="mark">P</span>
+    <span class="word">Protégé</span>
+  </div>
+
+  <div>
+    <h1>Don't rent their models. Own yours.</h1>
+    <p class="og-sub">Find the repeated work in your AI spend. Prove the cheapest route that clears your eval. Keep the weights.</p>
+  </div>
+
+  <div class="og-foot">
+    <span><b>90&times;</b> lower model-token price on the repeated slice</span>
+    <span>protege.sh</span>
+  </div>
+</body>
+</html>

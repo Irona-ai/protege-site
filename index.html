@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protégé: own the models that do your repeated work</title>
+<meta name="description" content="Protégé finds the repeated work inside your AI spend, proves the cheapest route that clears your eval, and hands back a model you own that keeps improving from its own production traces.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://protege.sh/">
+<meta property="og:title" content="Protégé: own the models that do your repeated work">
+<meta property="og:description" content="Find the repeated work in your AI spend. Prove the cheapest route that clears your eval. Keep the weights.">
+<meta property="og:image" content="https://protege.sh/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="navSentinel" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Protégé home">
+      <span class="mark" aria-hidden="true">P</span>
+      <span class="word">Protégé</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#method">Method</a></li>
+        <li><a href="#proof">Proof</a></li>
+        <li><a href="benchmarks/">Benchmarks</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="#audit">Request a route audit</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="wrap">
+    <h1 class="t-h1">Don't rent their models. Own yours.</h1>
+
+    <div class="hero-split">
+      <div>
+        <p class="lede">Find the repeated work in your AI spend. Prove the cheapest route that clears your eval. Keep the weights.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#audit">Request a route audit</a>
+          <a class="btn btn-ghost" href="benchmarks/">Read the benchmarks</a>
+        </div>
+      </div>
+
+      <figure class="gapfig">
+        <div class="gaprow">
+          <span class="who">Frontier generalist</span>
+          <span class="amt">$18.00<span>/ M tokens</span></span>
+        </div>
+        <div class="gapbar"><i style="width:100%"></i></div>
+
+        <div class="gaprow">
+          <span class="who">Open specialist</span>
+          <span class="amt">$0.20<span>/ M tokens</span></span>
+        </div>
+        <div class="gapbar is-heat"><i style="width:1.1%"></i></div>
+
+        <p class="gapmult">
+          <b>90&times;</b>
+          <span>lower model-token price for the bounded, repeated, verifiable slice of the same workload.</span>
+        </p>
+
+        <figcaption>Blended model-token serving basis, before optimization</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE VILLAIN ────────────────────────────────────────────────────────── -->
+<section class="villain band-lighter">
+  <div class="wrap">
+    <h2 class="t-h2 reveal">You pay frontier prices for work that stopped being hard months ago.</h2>
+
+    <div class="ticker reveal" role="img" aria-label="A repeating stream of inference calls: classify_intent at $0.018, route_tool_call at $0.021, extract_fields at $0.019, over and over.">
+      <div class="ticker-track">
+        <span>classify_intent <b>$0.018</b></span><span>classify_intent <b>$0.018</b></span><span>route_tool_call <b>$0.021</b></span><span>classify_intent <b>$0.018</b></span><span>extract_fields <b>$0.019</b></span><span>classify_intent <b>$0.018</b></span><span>route_tool_call <b>$0.021</b></span><span>classify_intent <b>$0.018</b></span><span>extract_fields <b>$0.019</b></span><span>classify_intent <b>$0.018</b></span><span>classify_intent <b>$0.018</b></span><span>route_tool_call <b>$0.021</b></span>
+        <span>classify_intent <b>$0.018</b></span><span>classify_intent <b>$0.018</b></span><span>route_tool_call <b>$0.021</b></span><span>classify_intent <b>$0.018</b></span><span>extract_fields <b>$0.019</b></span><span>classify_intent <b>$0.018</b></span><span>route_tool_call <b>$0.021</b></span><span>classify_intent <b>$0.018</b></span><span>extract_fields <b>$0.019</b></span><span>classify_intent <b>$0.018</b></span><span>classify_intent <b>$0.018</b></span><span>route_tool_call <b>$0.021</b></span>
+      </div>
+    </div>
+
+    <div class="villain-note reveal">
+      <p>One workflow, one day. Every agent loop turns a single user action into dozens of model calls, and each one is billed at the price of a model that could have written the workflow instead of running it.</p>
+      <p>Output tokens bill at three to five times input, so cutting what the model generates is the highest-leverage cost line available.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY NOW ────────────────────────────────────────────────────────────── -->
+<section id="why" class="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">Three curves crossed in the last twelve months.</h2>
+      <p class="lede">None of them is a prediction. All three already happened, and together they are what makes a specialist cheaper than a rented generalist today rather than eventually.</p>
+    </div>
+
+    <div class="bento">
+      <figure class="cell cell-chart reveal">
+        <div>
+          <h3>Open weights crossed the line</h3>
+          <p>The best open model more than doubled on the Artificial Analysis Intelligence Index. The gap to frontier halved, from 13 points to 6.</p>
+        </div>
+
+        <svg viewBox="0 0 460 300" role="img" width="100%" height="auto"
+             aria-label="Artificial Analysis Intelligence Index, April 2025 to April 2026. Frontier rises from 35 to 60. Best open model rises from 22 to 54. The gap narrows from 13 points to 6 points.">
+          <g class="fig-grid">
+            <line x1="44" y1="205" x2="430" y2="205"></line>
+            <line x1="44" y1="160" x2="430" y2="160"></line>
+            <line x1="44" y1="115" x2="430" y2="115"></line>
+            <line x1="44" y1="70"  x2="430" y2="70"></line>
+          </g>
+          <g class="fig-axis">
+            <text x="38" y="209" text-anchor="end">15</text>
+            <text x="38" y="164" text-anchor="end">30</text>
+            <text x="38" y="119" text-anchor="end">45</text>
+            <text x="38" y="74"  text-anchor="end">60</text>
+            <text x="90"  y="278" text-anchor="middle">APR 2025</text>
+            <text x="390" y="278" text-anchor="middle">APR 2026</text>
+          </g>
+
+          <!-- gap markers -->
+          <line x1="70" y1="145" x2="70" y2="184" stroke="#262626" stroke-opacity=".22" stroke-width="7" stroke-linecap="round"></line>
+          <line x1="410" y1="70" x2="410" y2="88" stroke="#fa5d19" stroke-width="7" stroke-linecap="round"></line>
+          <text class="fig-label" x="70" y="136" text-anchor="middle">gap 13</text>
+          <text class="fig-label" x="418" y="83" fill="#cc4a0e">gap 6</text>
+
+          <!-- frontier -->
+          <line x1="90" y1="145" x2="390" y2="70" stroke="#262626" stroke-opacity=".38" stroke-width="2"></line>
+          <circle cx="90" cy="145" r="4" fill="#262626" fill-opacity=".38"></circle>
+          <circle cx="390" cy="70" r="4" fill="#262626" fill-opacity=".38"></circle>
+          <text class="fig-value" x="102" y="140" fill-opacity=".62">35</text>
+          <text class="fig-value" x="378" y="60" text-anchor="end" fill-opacity=".62">60</text>
+
+          <!-- open -->
+          <line x1="90" y1="184" x2="390" y2="88" stroke="#fa5d19" stroke-width="2.5"></line>
+          <circle cx="90" cy="184" r="4.5" fill="#fa5d19"></circle>
+          <circle cx="390" cy="88" r="4.5" fill="#fa5d19"></circle>
+          <text class="fig-value" x="102" y="198" fill="#cc4a0e">22</text>
+          <text class="fig-value" x="378" y="106" text-anchor="end" fill="#cc4a0e">54</text>
+
+          <text class="fig-label" x="44" y="24">Frontier</text>
+          <text class="fig-label" x="120" y="24" fill="#cc4a0e">Best open model</text>
+        </svg>
+
+      </figure>
+
+      <div class="cell reveal">
+        <h3>Post-training got cheap</h3>
+        <p>GEPA-style prompt optimization, LoRA, supervised fine-tuning and rejection sampling now run in an afternoon on rented GPUs.</p>
+        <p class="kicker">The team that knows the task no longer has to be an ML team.</p>
+      </div>
+
+      <div class="cell cell-heat reveal">
+        <h3>Agents made repetition the bill</h3>
+        <p>Every agent loop turns one user action into dozens of model calls. Volume, not novelty, now dominates inference spend.</p>
+        <p class="kicker">Volume is exactly what a specialist eats.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROOF (the one dark band) ──────────────────────────────────────────── -->
+<section id="proof" class="proof">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">Three domains. Three published benchmarks.</h2>
+      <p class="lede">Every number below carries its n count, its standard deviation, and its cost accounting. The full runs, including the ones that lost, are on the benchmarks page.</p>
+    </div>
+
+    <div class="proof-grid">
+      <article class="result reveal">
+        <p class="num">10.9&times;</p>
+        <p class="what">Quality per dollar, sales and CRM agents</p>
+        <p>Beat Sonnet 4.6 on its own benchmark at a quarter of the price, and 4.5&times; on write-heavy CRM slices.</p>
+        <p class="src">Zapier AutomationBench &middot; n=10</p>
+        <a class="tlink" href="benchmarks/#automationbench">See the run <span class="arw" aria-hidden="true">&rarr;</span></a>
+      </article>
+
+      <article class="result reveal">
+        <p class="num">5.2&times; <small>/ 6.0&times;</small></p>
+        <p class="what">Faster and cheaper, operations workflows</p>
+        <p>Scored 0.9733 against Sonnet's 1.0000 on a bounded slice, at 369 ms p50.</p>
+        <p class="src">30-task holdout &middot; 90-trajectory serving run</p>
+        <a class="tlink" href="benchmarks/#operations">See the ladder <span class="arw" aria-hidden="true">&rarr;</span></a>
+      </article>
+
+      <article class="result reveal">
+        <p class="num">$2.82</p>
+        <p class="what">Full-table labeling, against $140 on Opus</p>
+        <p>39,962 rows labeled three ways, with 99.30% three-way agreement. Regulated data never left the warehouse.</p>
+        <p class="src">Snowflake table &middot; full cost accounting</p>
+        <a class="tlink" href="benchmarks/#labeling">See the accounting <span class="arw" aria-hidden="true">&rarr;</span></a>
+      </article>
+    </div>
+
+    <div class="proof-foot reveal">
+      <p>A bigger blind GEPA budget lost, landing at 0.252 &plusmn;0.144. We published that too. The failures are why the rest of the numbers are believable.</p>
+      <a class="btn btn-ghost" href="benchmarks/">Read the benchmarks</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE METHOD ─────────────────────────────────────────────────────────── -->
+<section id="method">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">Find the cheapest step that clears the eval.</h2>
+      <p class="lede">Teams treat optimization as a menu. It is a ladder, and you only climb when the eval proves the rung below did not clear. Most bounded workflows stop by rung three.</p>
+    </div>
+
+    <div class="ladder-layout">
+      <div class="reveal">
+        <p class="rungs-group-label">Live software, days not weeks</p>
+        <div class="rungs">
+          <div class="rung">
+            <span class="n">01</span>
+            <span>
+              <span class="name">Task contract and eval</span>
+              <span class="meta">Hours. No run cost. Defines what correct means before anything is optimized.</span>
+            </span>
+            <span class="pill pill-live">Live</span>
+          </div>
+          <div class="rung">
+            <span class="n">02</span>
+            <span>
+              <span class="name">Prompt and scaffold</span>
+              <span class="meta">One day, low run cost. GEPA plus autoresearch over the task contract.</span>
+            </span>
+            <span class="pill pill-live">Live</span>
+          </div>
+          <div class="rung">
+            <span class="n">03</span>
+            <span>
+              <span class="name">Output control</span>
+              <span class="meta">One day, no run cost. Schema, prefill, and /no_think. Where most workflows stop.</span>
+            </span>
+            <span class="pill pill-live">Live</span>
+          </div>
+          <div class="rung">
+            <span class="n">04</span>
+            <span>
+              <span class="name">Routing</span>
+              <span class="meta">Days, low run cost. Send each task shape to the cheapest model that clears it.</span>
+            </span>
+            <span class="pill pill-live">Live</span>
+          </div>
+        </div>
+
+        <p class="rungs-group-label">Training, only once the eval demands it</p>
+        <div class="rungs">
+          <div class="rung">
+            <span class="n">05</span>
+            <span>
+              <span class="name">Supervised fine-tuning</span>
+              <span class="meta">One to two weeks, GPU cost.</span>
+            </span>
+            <span class="pill pill-beta">Beta</span>
+          </div>
+          <div class="rung">
+            <span class="n">06</span>
+            <span>
+              <span class="name">Reinforcement learning</span>
+              <span class="meta">Two to six weeks, heavy GPU cost.</span>
+            </span>
+            <span class="pill pill-beta">Beta</span>
+          </div>
+        </div>
+
+        <p class="rung-stop">Competitors start at rung five. That is the only rung they sell.</p>
+      </div>
+
+      <figure class="ladder-figure reveal">
+        <svg viewBox="0 0 460 290" role="img" width="100%" height="auto"
+             aria-label="Eval score against tokens burned per eval on a logarithmic scale, measured on a 30-task operations holdout. Raw 8B scores 0.9560 at 1.39 million tokens. Adding JSON prefill scores 0.9667 at 74 thousand tokens. Adding slash-no-think scores 0.9598 at 38 thousand tokens. Supervised fine-tuning scores 0.9733 at 39 thousand tokens.">
+          <g class="fig-grid">
+            <line x1="60" y1="220" x2="440" y2="220"></line>
+            <line x1="60" y1="163" x2="440" y2="163"></line>
+            <line x1="60" y1="107" x2="440" y2="107"></line>
+            <line x1="60" y1="50"  x2="440" y2="50"></line>
+          </g>
+          <g class="fig-axis">
+            <text x="54" y="224" text-anchor="end">.954</text>
+            <text x="54" y="167" text-anchor="end">.961</text>
+            <text x="54" y="111" text-anchor="end">.968</text>
+            <text x="54" y="54"  text-anchor="end">.975</text>
+            <text x="60"  y="244" text-anchor="middle">30k</text>
+            <text x="173" y="244" text-anchor="middle">100k</text>
+            <text x="303" y="244" text-anchor="middle">400k</text>
+            <text x="420" y="244" text-anchor="middle">1.4M</text>
+            <text x="60" y="268">TOKEN BURN PER EVAL, LOG SCALE</text>
+          </g>
+
+          <!-- path through the ladder -->
+          <path d="M419 204 L145 117 L82 173 L85 64" fill="none" stroke="#262626" stroke-opacity=".16" stroke-width="1.5" stroke-dasharray="4 4"></path>
+
+          <circle cx="419" cy="204" r="5" fill="#262626" fill-opacity=".32"></circle>
+          <text class="fig-label" x="411" y="192" text-anchor="end">raw 8B, 32.6s p50</text>
+
+          <circle cx="145" cy="117" r="6.5" fill="#fa5d19"></circle>
+          <text class="fig-value" x="160" y="110" fill="#cc4a0e">rung 3, no training</text>
+          <text class="fig-label" x="160" y="127">18.8&#215; fewer tokens, higher score</text>
+
+          <circle cx="82" cy="173" r="5" fill="#262626" fill-opacity=".32"></circle>
+          <text class="fig-label" x="96" y="177">+ /no_think</text>
+
+          <circle cx="85" cy="64" r="5" fill="#262626" fill-opacity=".48"></circle>
+          <text class="fig-label" x="99" y="68">SFT, rung 5, +0.0066 for a training run</text>
+        </svg>
+        <figcaption>On our operations slice a trainingless JSON scaffold scored 0.9667. Adding supervised fine-tuning on top moved the aggregate by 0.0066 and cost a training run. Training first is the expensive wrong answer, and it is what most teams do first.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT COMPOUNDS ─────────────────────────────────────────────────────── -->
+<section id="compounds" class="band-lighter">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">Anyone can fine-tune once. Three things compound.</h2>
+      <p class="lede">Enterprises get isolation. We get a compounding map of what works, without ever holding their data.</p>
+    </div>
+
+    <div class="compound-layout">
+      <figure class="ladder-figure reveal">
+        <svg viewBox="0 0 460 250" role="img" width="100%" height="auto"
+             aria-label="Quality over time. Every other API stays flat between vendor releases. The Protégé endpoint steps upward at each tick as production traces are fed back.">
+          <g class="fig-axis">
+            <text x="26" y="24">QUALITY</text>
+            <text x="440" y="240" text-anchor="end">TIME</text>
+          </g>
+          <line x1="22" y1="214" x2="440" y2="214" class="fig-grid"></line>
+          <line x1="22" y1="30" x2="22" y2="214" class="fig-grid"></line>
+
+          <!-- frozen -->
+          <path d="M40 118 L240 118 L240 104 L430 104" fill="none" stroke="#262626" stroke-opacity=".32" stroke-width="2" stroke-dasharray="5 5"></path>
+          <circle cx="240" cy="118" r="3" fill="#262626" fill-opacity=".32"></circle>
+          <text class="fig-label" x="40" y="107">every other API, frozen</text>
+
+          <!-- protege steps -->
+          <path d="M40 190 L92 190 L92 172 L144 172 L144 154 L196 154 L196 134 L248 134 L248 114 L300 114 L300 94 L352 94 L352 74 L430 74"
+                fill="none" stroke="#fa5d19" stroke-width="2.5" stroke-linejoin="round"></path>
+          <circle cx="92" cy="190" r="3.5" fill="#fa5d19"></circle>
+          <circle cx="144" cy="172" r="3.5" fill="#fa5d19"></circle>
+          <circle cx="196" cy="154" r="3.5" fill="#fa5d19"></circle>
+          <circle cx="248" cy="134" r="3.5" fill="#fa5d19"></circle>
+          <circle cx="300" cy="114" r="3.5" fill="#fa5d19"></circle>
+          <circle cx="352" cy="94" r="3.5" fill="#fa5d19"></circle>
+          <text class="fig-value" x="430" y="62" text-anchor="end" fill="#cc4a0e">Protégé endpoint</text>
+          <text class="fig-label" x="40" y="208">each step is production traces fed back</text>
+        </svg>
+        <figcaption>The same endpoint and the same integration, against a better model each cycle. Downloadable weights or hosted endpoint is the customer's choice, and the loop runs either way.</figcaption>
+      </figure>
+
+      <div class="assets reveal">
+        <article class="asset">
+          <h3>Eval contracts and trace corpora</h3>
+          <p>Once our eval defines what good means for a workflow, we are the arbiter of it. Switching vendors means rebuilding the definition of quality first.</p>
+        </article>
+        <article class="asset">
+          <h3>The route library, holding zero customer data</h3>
+          <p>Every engagement teaches which rung clears which task shape. That map compounds across customers regardless of what any single contract permits, because it contains no customer content.</p>
+        </article>
+        <article class="asset">
+          <h3>The self-learning loop</h3>
+          <p>A competitor arriving later starts cold against a model that has been improving on production traces for a year.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPETITION ────────────────────────────────────────────────────────── -->
+<section id="compare">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">Everyone else sells a training run.</h2>
+      <p class="lede">They optimize the model. We optimize the decision of whether to touch the model at all.</p>
+    </div>
+
+    <div class="table-scroll reveal">
+      <table class="grid">
+        <caption class="sr-only">Capability comparison between Applied Compute, Osmosis, TrainLoop and Protégé</caption>
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Applied Compute</th>
+            <th scope="col">Osmosis</th>
+            <th scope="col">TrainLoop</th>
+            <th scope="col" class="us">Protégé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Learns from production traces</th>
+            <td class="y">Yes</td><td class="y">Yes</td><td class="n">Not claimed</td><td class="us y">Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Continuous or automatic retraining</th>
+            <td class="y">Yes</td><td class="y">Hourly</td><td class="n">Research only</td><td class="us y">Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Eval-gated ladder that can conclude "don't train"</th>
+            <td class="n">Not claimed</td><td class="n">Not claimed</td><td class="n">Not claimed</td><td class="us y">Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Ships trainingless wins as an outcome</th>
+            <td class="n">Not claimed</td><td class="n">Not claimed</td><td class="n">Not claimed</td><td class="us y">Yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Offline, warehouse-scale batch</th>
+            <td class="n">Not claimed</td><td class="n">Not claimed</td><td class="n">Not claimed</td><td class="us y">Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="table-note reveal">"Not claimed" means the capability is absent from public materials, not that the vendor is incapable of it. The category is real and well funded: Applied Compute has raised $100M, Osmosis $7M, TrainLoop went through YC W25. All three sell training.</p>
+  </div>
+</section>
+
+<!-- ── HOW AN ENGAGEMENT RUNS ─────────────────────────────────────────────── -->
+<section id="how" class="band-lighter">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">How an engagement runs.</h2>
+      <p class="lede">Offline work lands first, because it carries no production surface, no latency budget and no rollback risk. It still yields the eval contract.</p>
+    </div>
+
+    <div class="steps">
+      <article class="step reveal">
+        <h3>Audit the route</h3>
+        <p>Send two months of inference spend. We find which workflows repeat, what they cost, and which ones are bounded enough to replace.</p>
+      </article>
+      <article class="step reveal">
+        <h3>Write the eval</h3>
+        <p>The task contract fixes what a correct answer is, with n counts and standard deviations, before a single optimization runs.</p>
+      </article>
+      <article class="step reveal">
+        <h3>Climb until it clears</h3>
+        <p>Rung by rung, stopping at the cheapest one that passes. Most bounded workflows never reach a training run.</p>
+      </article>
+      <article class="step reveal">
+        <h3>Hand back the model</h3>
+        <p>Downloadable weights or a hosted endpoint, feeding on its own production traces from then on.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">The questions you should ask.</h2>
+    </div>
+
+    <div class="faq reveal">
+      <details>
+        <summary>Isn't this consulting?</summary>
+        <p>The ladder is productized. Rungs two, three and four are live software, and every engagement returns reusable rungs to the route library, so forward-deployed hours per engagement fall as coverage rises. The self-learning endpoint is the terminal product.</p>
+      </details>
+      <details>
+        <summary>CoreWeave already has Weights &amp; Biases, OpenPipe and the GPUs.</summary>
+        <p>They assembled it to fill their own capacity, because post-training is a feature that sells compute. We stay neutral across providers, we hand back the weights, and we lead with the eval rather than the cluster. Different buyer, different incentive.</p>
+      </details>
+      <details>
+        <summary>Our enterprise won't let you train on its data.</summary>
+        <p>It does not have to. The cross-customer asset is the route library, a map of which rung clears which task shape, and it contains zero customer content. Per-tenant learning stays isolated and is sold as the feature.</p>
+      </details>
+      <details>
+        <summary>Self-learning in a regulated environment?</summary>
+        <p>There is a human approval gate on by default. No checkpoint promotes without sign-off in regulated tenants, and every retrain is versioned, diffable and rollback-able with a full audit trail. Silent self-redeployment is an audit finding, not a feature.</p>
+      </details>
+      <details>
+        <summary>What happens to the labeled data and the weights if we stop working together?</summary>
+        <p>The weights and the eval contract are yours to keep and to run anywhere. Regulated data stays inside your warehouse throughout; on the 39,962-row labeling run we only needed the problem shape, meaning the domain, the labels, a few examples and the eval contract.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO BUILDS THIS ────────────────────────────────────────────────────── -->
+<section id="team" class="tight band-lighter">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h4">The benchmarks were produced by this team.</h2>
+    </div>
+    <div class="kv reveal">
+      <div>
+        <p class="k">Tushar Jain, founder</p>
+        <p class="v">Applied Scientist II at Amazon from 2021 to 2025, working on active learning to accelerate LLM training and large-scale optimization. ML Scientist then ML Engineer II at Verisk before that, shipping applied ML into regulated enterprise.</p>
+      </div>
+      <div>
+        <p class="k">Seven people, already shipping</p>
+        <p class="v">Founding engineering, ML engineering, software, product design and business operations. The router and the prompt harness are live; supervised fine-tuning and reinforcement learning are in beta.</p>
+      </div>
+      <div>
+        <p class="k">How we publish</p>
+        <p class="v">Every result on this site carries its n count, its standard deviation and its cost accounting. When a run loses, it goes on the benchmarks page with the runs that won.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSE ──────────────────────────────────────────────────────────────── -->
+<section id="audit" class="close">
+  <div class="wrap">
+    <div class="reveal">
+      <h2 class="t-h3">Send us two months of inference spend.</h2>
+      <p class="lede">We will show you which workflows are overpaying, what the cheapest route that clears your eval looks like, and what it would cost to own it.</p>
+    </div>
+
+    <form class="form-card reveal" id="auditForm" novalidate>
+      <div class="field">
+        <label for="email">Work email</label>
+        <input type="email" id="email" name="email" placeholder="you@company.com"
+               autocomplete="email" aria-describedby="emailErr">
+        <p class="err" id="emailErr" role="alert"></p>
+      </div>
+      <button class="btn btn-primary" type="submit">Request a route audit</button>
+      <p class="form-ok" role="status"></p>
+      <p class="fine">We reply within a day. Bring the spend breakdown and what currently counts as a correct answer; we do not need your data to start.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="about">
+      <a class="brand" href="/" aria-label="Protégé home">
+        <span class="mark" aria-hidden="true">P</span>
+        <span class="word">Protégé</span>
+      </a>
+      <p>A protégé learns the master's job, then does it better and cheaper. We find the repeated part of your work and hand it back as a model you own.</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li><a href="#method">Method</a></li>
+          <li><a href="#how">How an engagement runs</a></li>
+          <li><a href="benchmarks/">Benchmarks</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:tushar@protege.sh">tushar@protege.sh</a></li>
+          <li><a href="#audit">Request a route audit</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="wrap">
+    <div class="foot-base">
+      <span>&copy; 2026 Protégé</span>
+      <span>Router and prompt harness live &middot; SFT and RL in beta</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
