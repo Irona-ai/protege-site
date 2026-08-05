@@ -434,30 +434,56 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   padding-top: clamp(28px, 4vw, 44px);
   border-top: 1px solid var(--border-faint);
 }
-.logo-wall {
-  list-style: none;
+/* The wall drifts left; the inference ticker below drifts right, so the two
+   moving strips read as different devices rather than the same trick twice. */
+.logo-marquee {
   margin-top: 26px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 28px clamp(32px, 5vw, 60px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
-.logo-wall img {
+.logo-marquee-inner {
+  display: flex;
+  width: max-content;
+  animation: logo-drift 34s linear infinite;
+}
+.logo-marquee:hover .logo-marquee-inner { animation-play-state: paused; }
+.logo-track {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 5vw, 68px);
+  padding-right: clamp(40px, 5vw, 68px);
+  flex: 0 0 auto;
+}
+.logo-track li { display: flex; align-items: center; }
+.logo-track img {
   height: var(--h, 24px);
   width: auto;
+  max-width: none;
   filter: brightness(0) saturate(0);
   opacity: .58;
 }
-.logo-wall .lockup {
+.logo-track .lockup {
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -.02em;
+  white-space: nowrap;
   color: rgba(38, 38, 38, .58);
 }
+@keyframes logo-drift { to { transform: translateX(-50%); } }
+
 @media (max-width: 620px) {
-  .logo-wall { gap: 22px 30px; }
-  .logo-wall img { height: calc(var(--h, 24px) * .86); }
-  .logo-wall .lockup { font-size: 17px; }
+  .logo-track { gap: 34px; padding-right: 34px; }
+  .logo-track img { height: calc(var(--h, 24px) * .88); }
+  .logo-track .lockup { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee { -webkit-mask-image: none; mask-image: none; }
+  .logo-marquee-inner { animation: none; width: 100%; }
+  .logo-track { flex-wrap: wrap; }
+  .logo-track[aria-hidden="true"] { display: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -478,7 +504,7 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   display: flex;
   gap: 10px;
   width: max-content;
-  animation: slide 46s linear infinite;
+  animation: slide 46s linear infinite reverse;
 }
 .ticker-track > span {
   display: inline-flex;

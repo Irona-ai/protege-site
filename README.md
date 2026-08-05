@@ -86,6 +86,14 @@ Lorikeet publishes no wordmark SVG and their bird mark silhouettes into an
 unreadable blob, so their name is set in type. Swap in the real file when they
 send one.
 
+The wall is a seamless marquee: two identical `.logo-track` lists inside
+`.logo-marquee-inner`, translated by exactly `-50%`. If you add or remove a
+logo, change it in **both** tracks or the loop will jump. The second track is
+`aria-hidden` and its images carry empty `alt`, so screen readers read each
+brand once. It drifts left while the inference ticker below drifts right, and
+it pauses on hover. Under `prefers-reduced-motion: reduce` the animation stops,
+the duplicate track is hidden, and the logos wrap as a static row.
+
 ## Editing content
 
 Every number on both pages traces to the pre-seed deck and keeps its qualifier
