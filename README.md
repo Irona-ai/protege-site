@@ -5,6 +5,7 @@ Static marketing site for Protégé. Two pages, no build step, no dependencies.
 ```
 index.html              landing page
 benchmarks/index.html   full benchmark results
+team/index.html         about, founder bio, roster
 assets/css/site.css     all styles, Firecrawl design tokens
 assets/js/site.js       nav hairline state and scroll reveals
 assets/fonts/           self-hosted Inter and Geist Mono (latin + latin-ext woff2)
@@ -114,6 +115,14 @@ Step 3 is named Train, but the copy says most bounded workflows never reach a
 training run, because that is what the benchmarks support. Keep the label and the
 caveat together. The ring is `aria-hidden` decoration over a real `<ol>`, and it
 is dropped below 900px where a 2x2 ring is no longer a ring.
+
+## Navigation
+
+Three items plus the CTA: **Product** (jumps to the four-step loop), **About**
+(the team page), **Contact** (mailto). Benchmarks is deliberately not in the nav;
+it is reached from the hero's secondary button, from each proof block, and from
+both footers. If that page stops getting traffic, the nav is the first place to
+look.
 
 ## Calls to action
 

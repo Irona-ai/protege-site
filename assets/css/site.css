@@ -1280,6 +1280,69 @@ table.grid {
 }
 
 /* --------------------------------------------------------------------------
+   TEAM PAGE
+   -------------------------------------------------------------------------- */
+
+.person {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+.person-role {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  line-height: 1.8;
+}
+.person-links {
+  list-style: none;
+  margin-top: 20px;
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.person-bio p {
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--text-2);
+  max-width: 66ch;
+}
+.person-bio p + p { margin-top: 16px; }
+
+.roster {
+  list-style: none;
+  margin-top: 32px;
+  border-top: 1px solid var(--border-muted);
+}
+.roster li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--border-faint);
+}
+.r-name { font-size: 16px; font-weight: 550; letter-spacing: -.01em; }
+.r-role {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.roster .is-open .r-name { color: var(--text-2); }
+.roster .is-open .r-role { color: var(--heat-text); }
+
+@media (max-width: 780px) {
+  .person { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------------------------
    END CTA
    Centred, because it is the last thing on the page with nothing to align to.
    -------------------------------------------------------------------------- */

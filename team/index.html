@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About Protégé: the team behind the benchmarks</title>
+<meta name="description" content="Protégé is seven people building eval-gated post-training for repeated LLM workflows. Founded by Tushar Jain, previously Applied Scientist II at Amazon and ML engineer at Verisk.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://protege.sh/team/">
+<meta property="og:title" content="About Protégé: the team behind the benchmarks">
+<meta property="og:description" content="Seven people building eval-gated post-training for repeated LLM workflows.">
+<meta property="og:image" content="https://protege.sh/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="navSentinel" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="Protégé home">
+      <span class="mark" aria-hidden="true">P</span>
+      <span class="word">Protégé</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../#how">Product</a></li>
+        <li><a href="./">About</a></li>
+        <li><a href="mailto:tushar@protege.sh">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="https://cal.com/tushar-ironlabs" target="_blank" rel="noopener">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="page-head">
+  <div class="wrap">
+    <h1 class="t-h2">The benchmarks were produced by this team.</h1>
+    <p class="lede">Seven people, already shipping. The router and the prompt harness are live; supervised
+      fine-tuning and reinforcement learning are in beta. Nobody here is between the work and the numbers.</p>
+  </div>
+</section>
+
+<!-- ── FOUNDER ────────────────────────────────────────────────────────────── -->
+<section class="bmk" id="founder">
+  <div class="wrap">
+    <article class="person">
+      <div class="person-id">
+        <h2 class="t-h4">Tushar Jain</h2>
+        <p class="person-role">Founder &amp; CEO · Chief Scientist</p>
+        <ul class="person-links">
+          <li><a class="tlink" href="https://scholar.google.com/citations?user=Aq7k140AAAAJ&amp;hl=en" target="_blank" rel="noopener">Publications &amp; patents <span class="arw" aria-hidden="true">&rarr;</span></a></li>
+          <li><a class="tlink" href="mailto:tushar@protege.sh">tushar@protege.sh <span class="arw" aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </div>
+
+      <div class="person-bio">
+        <p>Applied Scientist II at Amazon from 2021 to 2025, working on applied and research machine learning
+          in production: active learning to accelerate LLM training, and large-scale optimization. Before that,
+          ML Scientist then ML Engineer II at Verisk from 2018 to 2021, shipping applied ML into regulated
+          enterprise where the audit trail matters as much as the model.</p>
+        <p>That sequence is the whole thesis. The expensive part of replacing a frontier model is not the
+          training run, it is knowing what "correct" means for a specific workflow and proving it before you
+          spend a GPU hour. Protégé productizes that judgment as an eval-gated ladder, and publishes the runs
+          that lose alongside the ones that win.</p>
+        <p>Angel investor in XYMA Analytics.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ── THE REST OF THE TEAM ───────────────────────────────────────────────── -->
+<section class="bmk" id="team">
+  <div class="wrap">
+    <h2 class="t-h4">The rest of the team</h2>
+    <p class="bmk-sub">Engineering, research, design and operations. Small enough that the people who run the
+      benchmarks are the people who answer your questions about them.</p>
+
+    <ul class="roster">
+      <li><span class="r-name">Abhishek Chauhan</span><span class="r-role">Founding Engineer</span></li>
+      <li><span class="r-name">Amit Kumar</span><span class="r-role">ML Engineer</span></li>
+      <li><span class="r-name">Ansh Gajbhiye</span><span class="r-role">Software Engineer</span></li>
+      <li><span class="r-name">Anchal Sharma</span><span class="r-role">Software Engineer</span></li>
+      <li><span class="r-name">Pooja Nagaraj</span><span class="r-role">Product Design</span></li>
+      <li><span class="r-name">Manya Jain</span><span class="r-role">Business Operations</span></li>
+      <li class="is-open"><span class="r-name">Reinforcement Learning Engineer</span><span class="r-role">Open role</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── HOW WE WORK ────────────────────────────────────────────────────────── -->
+<section class="bmk" id="how-we-work">
+  <div class="wrap">
+    <h2 class="t-h4">How we work</h2>
+    <div class="kv">
+      <div>
+        <p class="k">We publish the failures</p>
+        <p class="v">Every result carries its n count, its standard deviation and its cost accounting. The
+          0.252 &plusmn;0.144 run that lost is on the benchmarks page next to the one that shipped.</p>
+      </div>
+      <div>
+        <p class="k">We do not need your data to start</p>
+        <p class="v">On a 39,962-row labeling engagement the regulated data never left the customer's
+          warehouse. We needed the problem shape: domain, labels, a few examples, an eval contract.</p>
+      </div>
+      <div>
+        <p class="k">You keep the weights</p>
+        <p class="v">Downloadable weights or a hosted endpoint, your choice, and the eval contract is yours to
+          run anywhere. Switching away from us should cost you nothing but the switch.</p>
+      </div>
+    </div>
+
+    <div class="endcta">
+      <p class="endcta-tag">Private preview</p>
+      <h3>We take on a few design partners at a time.</h3>
+      <p class="endcta-body">The fit: a production workflow where cost or latency is starting to hurt, and the
+        people who know what good looks like are not on an ML team.</p>
+      <a class="btn btn-primary" href="https://cal.com/tushar-ironlabs" target="_blank" rel="noopener">Book a call</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="about">
+      <a class="brand" href="../" aria-label="Protégé home">
+        <span class="mark" aria-hidden="true">P</span>
+        <span class="word">Protégé</span>
+      </a>
+      <p>A protégé learns the master's job, then does it better and cheaper. We find the repeated part of your
+        work and hand it back as a model you own.</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li><a href="../#how">How it works</a></li>
+          <li><a href="../#method">The ladder</a></li>
+          <li><a href="../benchmarks/">Benchmarks</a></li>
+          <li><a href="../#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:tushar@protege.sh">tushar@protege.sh</a></li>
+          <li><a href="https://cal.com/tushar-ironlabs" target="_blank" rel="noopener">Book a call</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="wrap">
+    <div class="foot-base">
+      <span class="foot-place">&copy; 2026 Protégé<br>New York City</span>
+      <span class="foot-status">Agent-Finetuning <span class="pill pill-beta">Beta</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>
