@@ -79,6 +79,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: calc(var(--nav-h) + 24px);
+  /* clip, not hidden: hidden on the root would make it a scroll container */
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -189,7 +191,13 @@ p { text-wrap: pretty; }
 
 section { padding-block: clamp(64px, 9vw, 112px); }
 section.tight { padding-block: clamp(48px, 6vw, 72px); }
-.band-lighter { background: var(--bg-lighter); border-block: 1px solid var(--border-faint); }
+.band-lighter {
+  /* the seam fades in and out rather than butting against white */
+  background:
+    linear-gradient(180deg, #fdfcfb 0%, var(--bg-lighter) 14%,
+                    var(--bg-lighter) 86%, #fdfcfb 100%);
+  border-block: 1px solid var(--border-faint);
+}
 
 .section-head { max-width: 52ch; }
 .section-head h2 + p { margin-top: 16px; }
@@ -218,7 +226,8 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
 }
 .nav.is-stuck {
   border-bottom-color: var(--border-faint);
-  background: rgba(255, 255, 255, .92);
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 1px 0 rgba(38, 38, 38, .04), 0 12px 28px -20px rgba(38, 38, 38, .5);
 }
 .nav .wrap {
   height: 100%;
@@ -296,16 +305,28 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
 .btn:active { transform: translateY(1px); }
 
 .btn-primary {
-  background: var(--heat-text);   /* white on this reads 4.59:1 */
+  /* lit from above; the top stop is --heat-text, so the lightest pixel under
+     white type still measures 4.59:1 */
+  background: linear-gradient(180deg, var(--heat-text) 0%, #bc440c 100%);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(38, 38, 38, .16), 0 6px 20px rgba(250, 93, 25, .18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .16),
+    0 1px 2px rgba(38, 38, 38, .16),
+    0 10px 24px -10px rgba(204, 74, 14, .55);
 }
-.btn-primary:hover { background: var(--heat-text-hover); }
+.btn-primary:hover {
+  background: linear-gradient(180deg, #c1450c 0%, #a93c09 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .16),
+    0 1px 2px rgba(38, 38, 38, .18),
+    0 12px 28px -10px rgba(204, 74, 14, .62);
+}
 
 .btn-ghost {
-  background: var(--bg-base);
+  background: linear-gradient(180deg, #fff, #fbfaf9);
   border-color: var(--border-muted);
   color: var(--accent-black);
+  box-shadow: 0 1px 2px rgba(38, 38, 38, .04);
 }
 .btn-ghost:hover { border-color: var(--border-loud); background: var(--black-a4); }
 
@@ -352,7 +373,23 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
    HERO
    -------------------------------------------------------------------------- */
 
-.hero { padding-block: clamp(56px, 8vw, 88px) clamp(56px, 8vw, 96px); }
+.hero {
+  padding-block: clamp(56px, 8vw, 88px) clamp(56px, 8vw, 96px);
+  position: relative;
+  isolation: isolate;
+}
+/* a single light source for the page, warm, off the top-right shoulder */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -30% 0 auto 24%;      /* no negative right inset: it pushed the document 37px wide at 375 */
+  height: 150%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 46% at 74% 26%, rgba(250, 93, 25, .13), transparent 68%),
+    radial-gradient(46% 40% at 96% 6%, rgba(144, 97, 255, .07), transparent 70%);
+}
 .hero h1 { max-width: 22ch; }
 .hero-split {
   margin-top: clamp(28px, 3.4vw, 44px);
@@ -373,9 +410,15 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
 .gapfig {
   border: 1px solid var(--border-muted);
   border-radius: 8px;
-  background: var(--bg-lighter);
+  background: linear-gradient(180deg, #ffffff, var(--bg-lighter) 70%);
   padding: 24px 24px 20px;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1px 2px rgba(38, 38, 38, .04),
+    0 22px 48px -28px rgba(38, 38, 38, .28);
+  container-type: inline-size;
 }
+.gapfig { container-type: inline-size; }
 .gapfig figcaption {
   font-family: var(--mono);
   font-size: 10px;
@@ -515,8 +558,15 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   margin-top: clamp(32px, 4vw, 48px);
   border: 1px solid var(--border-muted);
   border-radius: 8px;
-  background: var(--bg-base);
+  /* the warmth gathers at the bottom right, where the number gets big */
+  background:
+    radial-gradient(120% 90% at 100% 100%, rgba(250, 93, 25, .07), transparent 62%),
+    linear-gradient(180deg, #ffffff, #fdfcfb);
   padding: clamp(20px, 3vw, 30px);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1px 2px rgba(38, 38, 38, .04),
+    0 26px 56px -32px rgba(38, 38, 38, .3);
 }
 .meter-head {
   display: flex;
@@ -572,13 +622,15 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
+.meter-scale li:last-child { background: linear-gradient(180deg, rgba(250, 93, 25, .07), transparent 78%); }
 .meter-scale li:last-child .v { color: var(--heat-text); }
 
 .meter-punch {
   margin-top: 6px;
   padding: 18px 20px;
   border-radius: 6px;
-  background: var(--accent-black);
+  background: linear-gradient(135deg, #2e2e2e 0%, #1c1c1c 100%);
+  box-shadow: 0 1px 2px rgba(38, 38, 38, .2), 0 16px 34px -18px rgba(38, 38, 38, .5);
   color: #fff;
   font-size: 16px;
   line-height: 24px;
@@ -643,14 +695,28 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   color: var(--accent-white);
   overflow: hidden;
 }
+.proof {
+  background: linear-gradient(180deg, #22272b 0%, var(--bg-dark) 34%, #1a1e21 100%);
+}
 .proof::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(760px 420px at 86% -14%, rgba(250, 93, 25, .18), transparent 62%),
-    radial-gradient(620px 420px at -6% 112%, rgba(144, 97, 255, .10), transparent 60%);
+    radial-gradient(820px 460px at 86% -16%, rgba(250, 93, 25, .20), transparent 62%),
+    radial-gradient(640px 440px at -6% 112%, rgba(144, 97, 255, .11), transparent 60%);
+}
+/* the lit top edge: warm where the source is, cool as it falls away */
+.proof::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(255, 255, 255, .14) 22%,
+    rgba(250, 93, 25, .55) 74%, transparent 100%);
 }
 .proof .wrap { position: relative; z-index: 1; }
 .proof .lede { color: var(--white-a56); }
@@ -700,7 +766,7 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   display: block;
   height: 100%;
   border-radius: 3px;
-  background: rgba(255, 255, 255, .34);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .40), rgba(255, 255, 255, .26));
   min-width: 4px;
 }
 .ch-val {
@@ -712,7 +778,10 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   font-variant-numeric: tabular-nums;
 }
 .ch-row.is-us .ch-name { color: var(--accent-white); font-weight: 550; }
-.ch-row.is-us .ch-track i { background: var(--heat-100); }
+.ch-row.is-us .ch-track i {
+  background: linear-gradient(180deg, #ff7a3d, var(--heat-100));
+  box-shadow: 0 0 18px -2px rgba(250, 93, 25, .5);
+}
 .ch-row.is-us .ch-val { color: var(--heat-100); }
 .ch-foot {
   margin-top: 16px;
@@ -798,7 +867,13 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   padding-block: 14px 6px;
 }
 
-.ladder-figure { border: 1px solid var(--border-muted); border-radius: 8px; padding: 22px; background: var(--bg-lighter); }
+.ladder-figure {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  padding: 22px;
+  background: linear-gradient(180deg, #ffffff, var(--bg-lighter) 72%);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(38, 38, 38, .04), 0 22px 48px -28px rgba(38, 38, 38, .26);
+}
 .ladder-figure figcaption {
   margin-top: 16px;
   padding-top: 14px;
@@ -931,6 +1006,13 @@ table.grid {
   max-width: 44ch;
 }
 
+.loop-ring::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(250, 93, 25, .09), transparent 72%);
+}
 .loop-ring {
   position: absolute;
   top: 50%;
@@ -1035,11 +1117,16 @@ table.grid {
 .close .lede { margin-top: 16px; max-width: 44ch; }
 
 .book-card {
-  border: 1px solid var(--border-muted);
+  border: 1px solid var(--heat-24);
   border-radius: 8px;
-  background: var(--bg-base);
+  background:
+    radial-gradient(110% 90% at 50% 0%, rgba(250, 93, 25, .07), transparent 64%),
+    linear-gradient(180deg, #ffffff, #fdfcfb);
   padding: 28px;
-  box-shadow: 0 1px 2px rgba(38, 38, 38, .04), 0 12px 32px rgba(38, 38, 38, .05);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1px 2px rgba(38, 38, 38, .05),
+    0 28px 60px -34px rgba(38, 38, 38, .34);
 }
 .book-card .btn { width: 100%; height: 48px; font-size: 16px; }
 .book-card .fine {
@@ -1096,13 +1183,16 @@ table.grid {
   border-top: 1px solid var(--border-faint);
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
+  gap: 12px 24px;
+  align-items: flex-end;
   justify-content: space-between;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .04em;
   color: var(--text-3);
 }
+.foot-place { line-height: 1.7; }
+.foot-status { display: inline-flex; align-items: center; gap: 9px; }
 
 /* --------------------------------------------------------------------------
    SVG FIGURE DEFAULTS
@@ -1188,6 +1278,49 @@ table.grid {
   .kv > div { padding-right: 0; }
   .kv > div + div { padding-left: 0; border-left: none; border-top: 1px solid var(--border-faint); }
 }
+
+/* --------------------------------------------------------------------------
+   END CTA
+   Centred, because it is the last thing on the page with nothing to align to.
+   -------------------------------------------------------------------------- */
+
+.endcta {
+  margin-top: clamp(40px, 5vw, 60px);
+  padding: clamp(32px, 4vw, 48px) clamp(24px, 4vw, 40px);
+  border: 1px solid var(--heat-24);
+  border-radius: 8px;
+  background:
+    radial-gradient(110% 100% at 50% 0%, rgba(250, 93, 25, .08), transparent 66%),
+    linear-gradient(180deg, #ffffff, #fdfcfb);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1px 2px rgba(38, 38, 38, .05),
+    0 30px 64px -36px rgba(38, 38, 38, .34);
+  text-align: center;
+}
+.endcta-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--heat-text);
+}
+.endcta h3 {
+  margin-top: 14px;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.16;
+  letter-spacing: -.025em;
+  font-weight: 700;
+}
+.endcta-body {
+  margin: 14px auto 0;
+  max-width: 54ch;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--text-2);
+}
+.endcta .btn { margin-top: 26px; }
 
 /* --------------------------------------------------------------------------
    REVEAL
