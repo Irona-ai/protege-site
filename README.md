@@ -8,6 +8,7 @@ benchmarks/index.html   full benchmark results
 assets/css/site.css     all styles, Firecrawl design tokens
 assets/js/site.js       nav state, scroll reveals, audit form
 assets/fonts/           self-hosted Inter and Geist Mono (latin + latin-ext woff2)
+assets/logos/           customer logos, each brand's own published mark
 assets/og.html          source for og.png, rendered with headless Chrome
 CNAME                   protege.sh
 .nojekyll               tells Pages to serve assets/ untouched
@@ -72,6 +73,18 @@ gh repo create <org>/protege-site --private --source=. --remote=origin --push
    The `CNAME` file in this repo already declares the custom domain, so Pages
    picks it up on the first deploy. Enable "Enforce HTTPS" once the certificate
    is issued.
+
+## The customer logo wall
+
+Each mark in `assets/logos/` is the brand's own published logo, pulled from their
+site. They are rendered as single-ink silhouettes (`filter: brightness(0) saturate(0)`
+at 58% opacity) so six unrelated palettes do not compete with the page's one accent.
+Per-logo optical height is set inline with `--h` because the marks have different
+cap heights; match by eye, not by number.
+
+Lorikeet publishes no wordmark SVG and their bird mark silhouettes into an
+unreadable blob, so their name is set in type. Swap in the real file when they
+send one.
 
 ## Editing content
 
