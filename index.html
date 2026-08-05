@@ -167,6 +167,60 @@
   </div>
 </section>
 
+<!-- ── THE LOOP ───────────────────────────────────────────────────────────── -->
+<section id="how" class="loopsec">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 class="t-h3">Four steps, and the fourth one starts the first again.</h2>
+      <p class="lede">Offline work lands first, because it carries no production surface, no latency budget
+        and no rollback risk. It still yields the eval contract that everything after it is measured against.</p>
+    </div>
+
+    <div class="loop reveal">
+      <ol class="loop-steps">
+        <li>
+          <span class="ls-n">01</span>
+          <h3>Capture</h3>
+          <p>Point us at two months of inference spend and the traces behind it. We find which workflows
+            repeat, what they cost, and which ones are bounded enough to replace.</p>
+        </li>
+        <li>
+          <span class="ls-n">02</span>
+          <h3>Evaluate</h3>
+          <p>An eval contract fixes what a correct answer is, with n counts and standard deviations, before a
+            single optimization runs. Without it, nothing that follows is measurable.</p>
+        </li>
+        <li>
+          <span class="ls-n">03</span>
+          <h3>Train</h3>
+          <p>Only when the eval says you have to. We climb the ladder rung by rung and stop at the cheapest one
+            that clears, so most bounded workflows never reach a training run at all.</p>
+        </li>
+        <li>
+          <span class="ls-n">04</span>
+          <h3>Deploy</h3>
+          <p>Downloadable weights or a hosted endpoint, your choice. From there it feeds on its own production
+            traces, which is where the next pass gets its data.</p>
+        </li>
+      </ol>
+
+      <div class="loop-ring" aria-hidden="true">
+        <svg viewBox="0 0 200 200" width="100%" height="100%">
+          <circle cx="100" cy="100" r="76" fill="none" stroke="var(--border-muted)" stroke-width="1.5"
+                  stroke-dasharray="5 7"></circle>
+          <g fill="var(--heat-100)">
+            <path d="M100 16 l7 12 -14 0 z" transform="rotate(45 100 100)"></path>
+            <path d="M100 16 l7 12 -14 0 z" transform="rotate(135 100 100)"></path>
+            <path d="M100 16 l7 12 -14 0 z" transform="rotate(225 100 100)"></path>
+            <path d="M100 16 l7 12 -14 0 z" transform="rotate(315 100 100)"></path>
+          </g>
+        </svg>
+        <p class="loop-center">production<br>traces feed<br>the next pass</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── WHY NOW ────────────────────────────────────────────────────────────── -->
 <section id="why" class="why">
   <div class="wrap">
@@ -545,35 +599,6 @@
   </div>
 </section>
 
-<!-- ── HOW AN ENGAGEMENT RUNS ─────────────────────────────────────────────── -->
-<section id="how" class="band-lighter">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <h2 class="t-h3">How an engagement runs.</h2>
-      <p class="lede">Offline work lands first, because it carries no production surface, no latency budget and no rollback risk. It still yields the eval contract.</p>
-    </div>
-
-    <div class="steps">
-      <article class="step reveal">
-        <h3>Audit the route</h3>
-        <p>Send two months of inference spend. We find which workflows repeat, what they cost, and which ones are bounded enough to replace.</p>
-      </article>
-      <article class="step reveal">
-        <h3>Write the eval</h3>
-        <p>The task contract fixes what a correct answer is, with n counts and standard deviations, before a single optimization runs.</p>
-      </article>
-      <article class="step reveal">
-        <h3>Climb until it clears</h3>
-        <p>Rung by rung, stopping at the cheapest one that passes. Most bounded workflows never reach a training run.</p>
-      </article>
-      <article class="step reveal">
-        <h3>Hand back the model</h3>
-        <p>Downloadable weights or a hosted endpoint, feeding on its own production traces from then on.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
 <!-- ── WHO BUILDS THIS ────────────────────────────────────────────────────── -->
 <section id="team" class="tight band-lighter">
   <div class="wrap">
@@ -662,7 +687,7 @@
         <h3>Product</h3>
         <ul>
           <li><a href="#method">Method</a></li>
-          <li><a href="#how">How an engagement runs</a></li>
+          <li><a href="#how">How it works</a></li>
           <li><a href="benchmarks/">Benchmarks</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
