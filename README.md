@@ -6,7 +6,7 @@ Static marketing site for Protégé. Two pages, no build step, no dependencies.
 index.html              landing page
 benchmarks/index.html   full benchmark results
 assets/css/site.css     all styles, Firecrawl design tokens
-assets/js/site.js       nav state, scroll reveals, audit form
+assets/js/site.js       nav hairline state and scroll reveals
 assets/fonts/           self-hosted Inter and Geist Mono (latin + latin-ext woff2)
 assets/logos/           customer logos, each brand's own published mark
 assets/og.html          source for og.png, rendered with headless Chrome
@@ -78,7 +78,9 @@ gh repo create <org>/protege-site --private --source=. --remote=origin --push
 
 Each mark in `assets/logos/` is the brand's own published logo, pulled from their
 site. They are rendered as single-ink silhouettes (`filter: brightness(0) saturate(0)`
-at 58% opacity) so six unrelated palettes do not compete with the page's one accent.
+at 68% opacity) so six unrelated palettes do not compete with the page's one accent.
+The 68% is a floor, not a taste call: Lorikeet is live text rather than an image, so
+it is held to text contrast and needs 4.5:1.
 Per-logo optical height is set inline with `--h` because the marks have different
 cap heights; match by eye, not by number.
 
@@ -90,9 +92,35 @@ The wall is a seamless marquee: two identical `.logo-track` lists inside
 `.logo-marquee-inner`, translated by exactly `-50%`. If you add or remove a
 logo, change it in **both** tracks or the loop will jump. The second track is
 `aria-hidden` and its images carry empty `alt`, so screen readers read each
-brand once. It drifts left while the inference ticker below drifts right, and
-it pauses on hover. Under `prefers-reduced-motion: reduce` the animation stops,
-the duplicate track is hidden, and the logos wrap as a static row.
+brand once. It pauses on hover. Under `prefers-reduced-motion: reduce` the
+animation stops, the duplicate track is hidden, and the logos wrap as a static row.
+It is the only moving strip on the page; keep it that way.
+
+## Sections that carry an argument
+
+Three sections do work that a rewrite can quietly destroy.
+
+**The cost meter** (`.meter`) walks one unit price up a scale: $0.018 a call to
+$18,000 a million, against $200 for the same million on a specialist. The unit
+prices are real and the volumes are not a customer's bill, which is why the note
+under it says so. Do not swap the scale for invented customer numbers.
+
+**Proof** (`.chart`) is three bar comparisons, and every one states its own scale
+(`bars run 0 to 0.70`, `bars to scale`). A bar chart without its scale printed is
+a lie by omission; if you change a number, change the width and the scale note.
+
+**The loop** (`.loop`) is a 2x2 grid read clockwise with the ring in the gutter.
+Step 3 is named Train, but the copy says most bounded workflows never reach a
+training run, because that is what the benchmarks support. Keep the label and the
+caveat together. The ring is `aria-hidden` decoration over a real `<ol>`, and it
+is dropped below 900px where a 2x2 ring is no longer a ring.
+
+## Calls to action
+
+One label, one destination: **Book a call**, to `https://cal.com/tushar-ironlabs`,
+in the nav, the hero, the closing card and the footer on both pages. There is no
+email capture form. If you add a second CTA, give it a different job (the only
+other one is "Read the benchmarks") or it will read as two buttons competing.
 
 ## Editing content
 
