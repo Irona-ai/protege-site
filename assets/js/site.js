@@ -2,10 +2,6 @@
 (function () {
   "use strict";
 
-  /* Tell the inline head script we made it. If this file never runs, that
-     script drops the .js flag and every .reveal ships visible. */
-  window.__protegeReady = true;
-
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* Nav hairline: the sentinel is 96px tall so it stays taller than the
@@ -26,14 +22,15 @@
   var marquee = document.querySelector(".logo-marquee");
   var toggle = document.querySelector("[data-marquee-toggle]");
   if (marquee && toggle) {
+    /* The label names the NEXT action, which is a complete affordance on its
+       own. aria-pressed alongside it inverts the meaning: a screen reader
+       would say "Play, pressed" while the marquee is paused. */
     toggle.addEventListener("click", function () {
       var paused = marquee.classList.toggle("is-paused");
-      toggle.setAttribute("aria-pressed", String(paused));
       toggle.textContent = paused ? "Play" : "Pause";
     });
     if (reduce) {
       marquee.classList.add("is-paused");
-      toggle.setAttribute("aria-pressed", "true");
       toggle.textContent = "Play";
     }
   }
@@ -65,10 +62,14 @@
     var dots = [];         // flat: x, y, ox, oy, vx, vy
     var STRIDE = 6;
     var w = 0, h = 0, dpr = 1, raf = null, live = false;
+    var box = { left: 0, top: 0 };   // cached rect: reading it per pointermove
+    var parked = false;              // forces a layout flush page-wide
     var ptr = { x: -9999, y: -9999, vx: 0, vy: 0, speed: 0, t: 0, lx: 0, ly: 0, inside: false };
 
     function build() {
       var rect = canvas.getBoundingClientRect();
+      box.left = rect.left + window.scrollX;
+      box.top = rect.top + window.scrollY;
       w = rect.width; h = rect.height;
       if (!w || !h) return false;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -165,17 +166,26 @@
 
     if (!reduce && !window.matchMedia("(pointer: coarse)").matches) {
       window.addEventListener("pointermove", function (ev) {
-        var rect = canvas.getBoundingClientRect();
+        if (parked) return;          // hero off screen: do no work at all
         var now = ev.timeStamp || performance.now();
         var dt = ptr.t ? now - ptr.t : 16;
         var dx = ev.clientX - ptr.lx, dy = ev.clientY - ptr.ly;
         var vx = (dx / dt) * 1000, vy = (dy / dt) * 1000;
         var speed = Math.hypot(vx, vy);
         if (speed > MAX_SPEED) { var s = MAX_SPEED / speed; vx *= s; vy *= s; speed = MAX_SPEED; }
+        if (!ptr.t) {                // first move: record, do not shove
+          ptr.t = now; ptr.lx = ev.clientX; ptr.ly = ev.clientY;
+          ptr.x = ev.clientX + window.scrollX - box.left;
+          ptr.y = ev.clientY + window.scrollY - box.top;
+          ptr.inside = ptr.x > -PROXIMITY && ptr.x < w + PROXIMITY &&
+                       ptr.y > -PROXIMITY && ptr.y < h + PROXIMITY;
+          if (ptr.inside) wake();
+          return;
+        }
         ptr.t = now; ptr.lx = ev.clientX; ptr.ly = ev.clientY;
         ptr.vx = vx; ptr.vy = vy; ptr.speed = speed;
-        ptr.x = ev.clientX - rect.left;
-        ptr.y = ev.clientY - rect.top;
+        ptr.x = ev.clientX + window.scrollX - box.left;
+        ptr.y = ev.clientY + window.scrollY - box.top;
         ptr.inside = ptr.x > -PROXIMITY && ptr.x < w + PROXIMITY &&
                      ptr.y > -PROXIMITY && ptr.y < h + PROXIMITY;
         if (ptr.inside && speed > SPEED_TRIGGER) {
@@ -184,8 +194,9 @@
       }, { passive: true });
 
       window.addEventListener("pointerdown", function (ev) {
-        var rect = canvas.getBoundingClientRect();
-        var cx = ev.clientX - rect.left, cy = ev.clientY - rect.top;
+        if (parked) return;
+        var cx = ev.clientX + window.scrollX - box.left;
+        var cy = ev.clientY + window.scrollY - box.top;
         if (cy < -SHOCK_RADIUS || cy > h + SHOCK_RADIUS) return;
         shove(cx, cy, SHOCK_RADIUS, SHOCK_STRENGTH * 0.9, 0, 0);
       }, { passive: true });
@@ -197,6 +208,11 @@
        soon as the box has a real size, so the field always recovers. */
     var rt;
     function reflow() { clearTimeout(rt); rt = setTimeout(start, 150); }
+    window.addEventListener("scroll", function () {
+      var r = canvas.getBoundingClientRect();
+      box.left = r.left + window.scrollX;
+      box.top = r.top + window.scrollY;
+    }, { passive: true });
     if ("ResizeObserver" in window) {
       new ResizeObserver(reflow).observe(canvas);
     } else {
@@ -206,13 +222,21 @@
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
         if (!entries[0].isIntersecting) {
+          parked = true;
           if (raf) { cancelAnimationFrame(raf); raf = null; live = false; }
           ptr.inside = false;
+        } else {
+          parked = false;
+          wake();                    // dots may be frozen mid-throw; settle them
         }
       }, { threshold: 0 }).observe(canvas);
     }
     document.addEventListener("visibilitychange", function () {
-      if (document.hidden && raf) { cancelAnimationFrame(raf); raf = null; live = false; }
+      if (document.hidden) {
+        if (raf) { cancelAnimationFrame(raf); raf = null; live = false; }
+      } else if (!parked) {
+        wake();
+      }
     });
   }
 
@@ -233,12 +257,14 @@
       cur.rx += (tgt.rx - cur.rx) * 0.12;
       cur.ry += (tgt.ry - cur.ry) * 0.12;
       cur.s += (tgt.s - cur.s) * 0.12;
+      tiltEl.style.willChange = "transform";
       tiltEl.style.transform =
         "perspective(900px) rotateX(" + cur.rx.toFixed(3) + "deg) rotateY(" +
         cur.ry.toFixed(3) + "deg) scale(" + cur.s.toFixed(4) + ")";
       var settled = Math.abs(tgt.rx - cur.rx) < 0.01 && Math.abs(tgt.ry - cur.ry) < 0.01 &&
                     Math.abs(tgt.s - cur.s) < 0.0005;
-      if (settled) { tRaf = null; } else { tRaf = requestAnimationFrame(tiltStep); }
+      if (settled) { tRaf = null; tiltEl.style.willChange = "auto"; }
+      else { tRaf = requestAnimationFrame(tiltStep); }
     }
     function tiltWake() { if (!tRaf) tRaf = requestAnimationFrame(tiltStep); }
 
@@ -252,10 +278,10 @@
       tiltWake();
     }, { passive: true });
 
-    tiltEl.addEventListener("pointerleave", function () {
-      tgt.rx = 0; tgt.ry = 0; tgt.s = 1;
-      tiltWake();
-    }, { passive: true });
+    function tiltReset() { tgt.rx = 0; tgt.ry = 0; tgt.s = 1; tiltWake(); }
+    tiltEl.addEventListener("pointerleave", tiltReset, { passive: true });
+    tiltEl.addEventListener("pointercancel", tiltReset, { passive: true });
+    window.addEventListener("blur", tiltReset, { passive: true });
   }
 
   /* Scroll reveals. */
@@ -279,4 +305,8 @@
       el.classList.add("in");
     });
   }
+  /* Last statement on purpose: the head watchdog reads this to decide whether
+     site.js finished. Setting it early would satisfy the watchdog even if the
+     code that reveals content threw on the way here. */
+  window.__protegeReady = true;
 })();

@@ -219,7 +219,7 @@
       </div>
 
       <figure class="hero-fig">
-        <svg viewBox="0 0 460 300" width="100%" height="auto" role="img"
+        <svg viewBox="0 0 460 300" width="100%" role="img"
              aria-label="Quality over time. A frontier API stays flat between vendor releases, stepping up only when a vendor ships. The Protégé endpoint climbs continuously as production traces are fed back, overtaking the frontier line and continuing to rise.">
           <g class="fig-axis">
             <text x="16" y="150" transform="rotate(-90 16 150)" text-anchor="middle">QUALITY</text>
@@ -257,7 +257,7 @@
   <div class="wrap">
     <div class="usedby-head">
       <p class="usedby-label">Used by teams at</p>
-      <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false">Pause</button>
+      <button class="marquee-toggle" type="button" data-marquee-toggle>Pause</button>
     </div>
     <div class="logo-marquee">
       <div class="logo-marquee-inner">
@@ -560,7 +560,7 @@
         <p class="rung-stop">Competitors start at rung five. That is the only rung they sell.</p>
       </div>
 
-      <figure class="ladder-figure reveal">
+      <figure class="ladder-figure reveal" tabindex="0" role="region" aria-label="Optimization ladder chart, scrollable">
         <svg viewBox="0 0 460 290" role="img" width="100%"
              aria-label="Eval score against tokens burned per eval on a logarithmic scale, measured on a 30-task operations holdout. Raw 8B scores 0.9560 at 1.39 million tokens. Adding JSON prefill scores 0.9667 at 74 thousand tokens. Adding slash-no-think scores 0.9598 at 38 thousand tokens. Supervised fine-tuning scores 0.9733 at 39 thousand tokens.">
           <g class="fig-grid">
@@ -612,7 +612,7 @@
     </div>
 
     <div class="compound-layout">
-      <figure class="ladder-figure reveal">
+      <figure class="ladder-figure reveal" tabindex="0" role="region" aria-label="Endpoint quality over time chart, scrollable">
         <svg viewBox="0 0 460 250" role="img" width="100%"
              aria-label="Quality over time. Every other API stays flat between vendor releases. The Protégé endpoint steps upward at each tick as production traces are fed back.">
           <g class="fig-axis">
@@ -768,9 +768,9 @@
 <section id="audit" class="close">
   <div class="wrap">
     <div class="endcta reveal">
-      <p class="endcta-tag">Private preview</p>
       <h2>Interested?</h2>
-      <p class="endcta-body">We work with a small group of design partners at a time: capture the traces, write
+      <p class="endcta-body">We are in private preview, working with a small group of design partners at a time:
+        capture the traces, write
         the eval, and ship the first replacement model alongside the people who already know the work.</p>
       <p class="endcta-body">The fit is a production workflow where cost or latency is starting to hurt, and the
         people who know what good looks like are not on an ML team.</p>

@@ -90,7 +90,10 @@ unreadable blob, so their name is set in type. Swap in the real file when they
 send one.
 
 The wall is a seamless marquee: two identical `.logo-track` lists inside
-`.logo-marquee-inner`, translated by exactly `-50%`. If you add or remove a
+`.logo-marquee-inner`, translated by exactly `-50%`. The offset is
+`-(100 / trackCount)%` — it was briefly `-33.3333%` against two tracks, which
+made the strip snap back 318px every cycle. If you change the number of tracks,
+change the keyframe with it. If you add or remove a
 logo, change it in **both** tracks or the loop will jump. The second track is
 `aria-hidden` and its images carry empty `alt`, so screen readers read each
 brand once. It pauses on hover. Under `prefers-reduced-motion: reduce` the
