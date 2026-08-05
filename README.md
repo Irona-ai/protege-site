@@ -131,6 +131,26 @@ in the nav, the hero, the closing card and the footer on both pages. There is no
 email capture form. If you add a second CTA, give it a different job (the only
 other one is "Read the benchmarks") or it will read as two buttons competing.
 
+## The hero
+
+Composition follows the pre-seed deck: a two-line claim with `Own yours.` in
+heat, one short subline, the cycling job list, status pills, then the CTAs. The
+figure is the quality-over-time chart, because the product promise is an
+endpoint that improves between vendor releases.
+
+**The distortion field** (`.hero .field`, drawn by `site.js`) is a dot lattice
+displaced by three slow lenses. Each dot is pushed radially away from a lens
+centre with a smoothstep falloff and tinted warm in proportion to how far it
+moved. It is canvas, not SVG or CSS: it is ~1,800 nodes re-positioned per frame.
+It stops drawing when the hero scrolls out of view or the tab is hidden, and
+under `prefers-reduced-motion` it paints one static frame and never animates.
+A radial mask keeps it out from under the headline.
+
+**The job list** (`.roles-slot`) cycles with pure CSS on an `inline-grid`, so
+every option occupies the same cell and the line never reflows as it changes.
+The full list is in a `sr-only` span for screen readers; with reduced motion the
+cycle is hidden and that plain list becomes visible instead.
+
 ## Bar charts
 
 Every bar on the site is `<span class="track"><span class="fill" style="width:N%">`,

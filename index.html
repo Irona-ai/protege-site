@@ -183,37 +183,70 @@
 
 <!-- ── HERO ───────────────────────────────────────────────────────────────── -->
 <section class="hero">
-  <div class="wrap">
-    <h1 class="t-h1">Don't rent their models. Own yours.</h1>
+  <canvas class="field" aria-hidden="true"></canvas>
 
-    <div class="hero-split">
-      <div>
-        <p class="lede">Find the repeated work in your AI spend. Prove the cheapest route that clears your eval. Keep the weights.</p>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-say">
+        <h1 class="t-h1">Don't rent their models.<br><em>Own yours.</em></h1>
+        <p class="hero-sub">Custom AI models trained from your work.</p>
+
+        <p class="hero-roles">
+          One model per job:
+          <span class="roles">
+            <span class="sr-only">a sales model, a support model, an invoice-extraction model, a ticket-triage
+              model, a document-review model.</span>
+            <span class="roles-slot" aria-hidden="true">
+              <span>a sales model</span>
+              <span>a CX model</span>
+              <span>an invoice-extraction model</span>
+              <span>a ticket-triage model</span>
+              <span>a document-review model</span>
+            </span>
+          </span>
+        </p>
+
+        <ul class="status">
+          <li><span class="pill pill-live">Router &middot; Live</span></li>
+          <li><span class="pill pill-live">Prompt harness &middot; Live</span></li>
+          <li><span class="pill pill-beta">SFT + RL &middot; Beta</span></li>
+        </ul>
+
         <div class="hero-cta">
           <a class="btn btn-primary" href="https://cal.com/tushar-ironlabs" target="_blank" rel="noopener">Book a call</a>
           <a class="btn btn-ghost" href="benchmarks/">Read the benchmarks</a>
         </div>
       </div>
 
-      <figure class="gapfig">
-        <div class="gaprow">
-          <span class="who">Frontier generalist</span>
-          <span class="amt">$18.00<span>/ M tokens</span></span>
-        </div>
-        <div class="gapbar"><span class="fill" style="width:100%"></span></div>
+      <figure class="hero-fig">
+        <svg viewBox="0 0 460 300" width="100%" height="auto" role="img"
+             aria-label="Quality over time. A frontier API stays flat between vendor releases, stepping up only when a vendor ships. The Protégé endpoint climbs continuously as production traces are fed back, overtaking the frontier line and continuing to rise.">
+          <g class="fig-axis">
+            <text x="16" y="150" transform="rotate(-90 16 150)" text-anchor="middle">QUALITY</text>
+            <text x="46" y="286">PRODUCTION TRACES &rarr;</text>
+          </g>
+          <line x1="34" y1="264" x2="440" y2="264" class="fig-grid"></line>
+          <line x1="34" y1="30" x2="34" y2="264" class="fig-grid"></line>
 
-        <div class="gaprow">
-          <span class="who">Open specialist</span>
-          <span class="amt">$0.20<span>/ M tokens</span></span>
-        </div>
-        <div class="gapbar is-heat"><span class="fill" style="width:1.1%"></span></div>
+          <!-- frontier: flat, with two vendor releases -->
+          <path d="M52 196 L188 196 L188 172 L318 172 L318 154 L436 154" fill="none"
+                stroke="var(--text-3)" stroke-width="2"></path>
+          <circle cx="188" cy="196" r="3" fill="var(--text-3)"></circle>
+          <circle cx="318" cy="172" r="3" fill="var(--text-3)"></circle>
+          <text class="fig-label" x="436" y="138" text-anchor="end">frontier API &middot; frozen</text>
 
-        <p class="gapmult">
-          <b>90&times;</b>
-          <span>lower model-token price for the bounded, repeated, verifiable slice of the same workload.</span>
-        </p>
-
-        <figcaption>Blended model-token serving basis, before optimization</figcaption>
+          <!-- protégé: continuous climb -->
+          <path d="M52 224 C 120 220, 150 196, 188 172 S 260 112, 318 88 S 400 56, 436 44"
+                fill="none" stroke="var(--heat-100)" stroke-width="2.75" stroke-linecap="round"></path>
+          <circle cx="120" cy="212" r="3" fill="var(--heat-100)" fill-opacity=".5"></circle>
+          <circle cx="188" cy="172" r="3" fill="var(--heat-100)" fill-opacity=".6"></circle>
+          <circle cx="256" cy="130" r="3" fill="var(--heat-100)" fill-opacity=".75"></circle>
+          <circle cx="318" cy="88" r="3" fill="var(--heat-100)" fill-opacity=".9"></circle>
+          <circle cx="436" cy="44" r="5.5" fill="var(--heat-100)"></circle>
+          <text class="fig-value" x="424" y="30" text-anchor="end" fill="var(--heat-text)">Protégé &middot; improving</text>
+        </svg>
+        <figcaption>The only endpoint whose quality goes up between releases. Same integration, better model each
+          cycle, fed by its own production traces.</figcaption>
       </figure>
     </div>
   </div>
@@ -265,6 +298,21 @@
         <code>classify_intent</code>
         <span>one bounded call, billed at the frontier rate</span>
       </figcaption>
+
+      <div class="rates">
+        <div class="rate">
+          <span class="rate-who">Frontier generalist</span>
+          <span class="rate-amt">$18.00<span>/ M tokens</span></span>
+        </div>
+        <div class="rate is-heat">
+          <span class="rate-who">Open specialist</span>
+          <span class="rate-amt">$0.20<span>/ M tokens</span></span>
+        </div>
+        <div class="rate rate-x">
+          <span class="rate-who">On the bounded, repeated slice</span>
+          <span class="rate-amt">90&times;<span>cheaper</span></span>
+        </div>
+      </div>
 
       <ol class="meter-scale">
         <li>

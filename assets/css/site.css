@@ -412,102 +412,157 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
 
 /* --------------------------------------------------------------------------
    HERO
+   A distortion field behind a two-line claim. The field is drawn on canvas
+   because it is 1,800 dots being displaced every frame; CSS cannot do that,
+   and an SVG with 1,800 nodes would be worse.
    -------------------------------------------------------------------------- */
 
 .hero {
-  padding-block: clamp(56px, 8vw, 88px) clamp(56px, 8vw, 96px);
   position: relative;
   isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(64px, 9vw, 116px) clamp(56px, 8vw, 96px);
 }
-/* a single light source for the page, warm, off the top-right shoulder */
+.hero .field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* the field fades out where the type sits, so nothing competes with the claim */
+  -webkit-mask-image: radial-gradient(78% 78% at 28% 44%, transparent 12%, #000 62%);
+  mask-image: radial-gradient(78% 78% at 28% 44%, transparent 12%, #000 62%);
+}
+/* one warm source, still off the top-right shoulder */
 .hero::before {
   content: "";
   position: absolute;
-  inset: -30% 0 auto 24%;      /* no negative right inset: it pushed the document 37px wide at 375 */
+  inset: -30% 0 auto 24%;
   height: 150%;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(52% 46% at 74% 26%, rgba(250, 93, 25, .13), transparent 68%),
+  background: radial-gradient(52% 46% at 74% 26%, rgba(250, 93, 25, .13), transparent 68%);
+}
 
-}
-.hero h1 { max-width: 22ch; }
-.hero-split {
-  margin-top: clamp(28px, 3.4vw, 44px);
+.hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, .92fr);
-  gap: clamp(28px, 5vw, 72px);
-  align-items: end;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
 }
-.hero .lede { max-width: 46ch; }
+
+.hero h1 {
+  font-size: clamp(40px, 6.4vw, 82px);
+  line-height: 1.02;
+  letter-spacing: -.038em;
+  font-weight: 800;
+  max-width: 15ch;
+}
+.hero h1 em { font-style: normal; color: var(--heat-100); }
+.hero-sub {
+  margin-top: 22px;
+  font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.5;
+  color: var(--text-2);
+  max-width: 34ch;
+}
+
+/* The job list cycles in one slot. inline-grid stacks every option in the same
+   cell, so the slot is as wide as the longest one and the line never reflows. */
+.hero-roles {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: .01em;
+  color: var(--text-3);
+}
+.roles-slot {
+  display: inline-grid;
+  vertical-align: bottom;
+}
+.roles-slot > span {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  color: var(--heat-text);
+  font-weight: 500;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .roles-slot > span { animation: role-cycle 15s infinite; }
+  .roles-slot > span:nth-child(1) { animation-delay: 0s; }
+  .roles-slot > span:nth-child(2) { animation-delay: 3s; }
+  .roles-slot > span:nth-child(3) { animation-delay: 6s; }
+  .roles-slot > span:nth-child(4) { animation-delay: 9s; }
+  .roles-slot > span:nth-child(5) { animation-delay: 12s; }
+}
+@keyframes role-cycle {
+  0%   { opacity: 0; transform: translateY(5px); }
+  3%   { opacity: 1; transform: none; }
+  17%  { opacity: 1; transform: none; }
+  20%, 100% { opacity: 0; transform: translateY(-5px); }
+}
+/* with motion off, the cycle becomes the plain list it was always describing */
+@media (prefers-reduced-motion: reduce) {
+  .roles-slot { display: none; }
+  .roles .sr-only {
+    position: static;
+    width: auto; height: auto;
+    margin: 0; overflow: visible;
+    clip-path: none; white-space: normal;
+    color: var(--heat-text);
+    font-weight: 500;
+  }
+}
+
+.status {
+  list-style: none;
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.status .pill { height: 26px; padding-inline: 11px; }
+
 .hero-cta {
-  margin-top: 28px;
+  margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-/* price gap figure */
-.gapfig {
+.hero-fig {
   border: 1px solid var(--border-muted);
   border-radius: 8px;
-  background: linear-gradient(180deg, #ffffff, var(--bg-lighter) 70%);
-  padding: 24px 24px 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .86), rgba(251, 250, 249, .9));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 22px 22px 18px;
   box-shadow:
     inset -1px 1px 0 #fff,
     0 1px 2px rgba(38, 38, 38, .04),
-    var(--lit-x) 22px 48px -28px rgba(38, 38, 38, .28);
-  container-type: inline-size;
+    var(--lit-x) 26px 56px -32px rgba(38, 38, 38, .3);
 }
-.gapfig figcaption {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  line-height: 1.5;
-  margin-top: 18px;
+.hero-fig figcaption {
+  margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid var(--border-faint);
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text-3);
 }
-.gaprow {
-  display: flex;
-  flex-wrap: wrap;               /* label and price drop to separate lines rather than collide */
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 2px 16px;
-}
-.gaprow .amt { margin-left: auto; }
-@container (max-width: 340px) {
-  .gaprow .amt { margin-left: 0; }
-}
-.gaprow + .gaprow { margin-top: 18px; }
-.gaprow .who { font-size: 14px; font-weight: 500; color: var(--text-2); }
-.gaprow .amt { font-family: var(--mono); font-size: clamp(20px, 4.6cqi, 26px); font-weight: 600; letter-spacing: -.02em; }
-.gaprow .amt span { font-size: 12px; font-weight: 500; color: var(--text-3); margin-left: 4px; }
-.gapbar { height: 10px; border-radius: 4px; margin-top: 10px; background: var(--black-a8); overflow: hidden; }
-.gapbar .fill { display: block; height: 100%; border-radius: 4px; background: rgba(38,38,38,.34); min-width: 3px; }
-.gapbar.is-heat .fill { background: var(--heat-100); }
-.gapmult {
-  margin-top: 22px;
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-.gapmult b { font-size: 44px; line-height: 1; letter-spacing: -.04em; color: var(--heat-100); }
-.gapmult span { font-size: 14px; line-height: 20px; color: var(--text-2); max-width: 26ch; }
 
 @media (max-width: 940px) {
-  .hero-split { grid-template-columns: 1fr; align-items: stretch; }
+  .hero-grid { grid-template-columns: 1fr; }
   .hero h1 { max-width: 100%; }
+  .hero-sub { max-width: 44ch; }
+  .hero .field {
+    -webkit-mask-image: radial-gradient(120% 62% at 40% 26%, transparent 20%, #000 72%);
+    mask-image: radial-gradient(120% 62% at 40% 26%, transparent 20%, #000 72%);
+  }
 }
-
 @media (max-width: 620px) {
   .hero-cta .btn { width: 100%; }
-  .gaprow { flex-direction: column; align-items: flex-start; gap: 2px; }
-  .gaprow .amt { font-size: 24px; }
-  .gapmult { flex-direction: column; gap: 6px; }
-  .gapmult span { max-width: 100%; }
 }
 
 /* --------------------------------------------------------------------------
@@ -665,6 +720,47 @@ section.usedby { padding-block: 0 clamp(40px, 5vw, 60px); }
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+
+.rates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border-faint);
+}
+.rate { padding-right: 20px; }
+.rate + .rate { padding-left: 20px; border-left: 1px solid var(--border-faint); }
+.rate-who {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.rate-amt {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+.rate-amt span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  margin-left: 6px;
+  letter-spacing: 0;
+}
+.rate.is-heat .rate-amt,
+.rate.rate-x .rate-amt { color: var(--heat-text); }
+@media (max-width: 700px) {
+  .rates { grid-template-columns: 1fr; gap: 14px; }
+  .rate { padding-right: 0; }
+  .rate + .rate { padding-left: 0; border-left: none; padding-top: 14px; border-top: 1px solid var(--border-faint); }
 }
 
 .meter-scale {
