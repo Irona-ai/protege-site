@@ -472,14 +472,14 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
   width: auto;
   max-width: none;
   filter: brightness(0) saturate(0);
-  opacity: .58;
+  opacity: .68;
 }
 .logo-track .lockup {
   font-size: 19px;
   font-weight: 600;
   letter-spacing: -.02em;
   white-space: nowrap;
-  color: rgba(38, 38, 38, .58);
+  color: rgba(38, 38, 38, .68);
 }
 @keyframes logo-drift { to { transform: translateX(-50%); } }
 
