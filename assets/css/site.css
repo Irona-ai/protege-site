@@ -634,48 +634,6 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
 }
 
 /* --------------------------------------------------------------------------
-   WHY NOW (asymmetric bento, 3 cells)
-   -------------------------------------------------------------------------- */
-
-.bento {
-  margin-top: 44px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  grid-template-rows: auto auto;
-  gap: 16px;
-}
-.cell {
-  border: 1px solid var(--border-muted);
-  border-radius: 8px;
-  padding: 24px;
-  background: var(--bg-base);
-  display: flex;
-  flex-direction: column;
-}
-.cell-chart {
-  grid-row: span 2;
-  background: var(--bg-lighter);
-  justify-content: space-between;
-}
-.cell h3 { font-size: 19px; line-height: 25px; letter-spacing: -.02em; font-weight: 650; }
-.cell p { margin-top: 10px; font-size: 14px; line-height: 21px; color: var(--text-2); }
-.cell .kicker {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-faint);
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 550;
-  color: var(--accent-black);
-}
-.cell-heat { border-color: var(--heat-24); background: var(--heat-6); }
-
-@media (max-width: 860px) {
-  .bento { grid-template-columns: 1fr; }
-  .cell-chart { grid-row: auto; }
-}
-
-/* --------------------------------------------------------------------------
    PROOF (the one dark band)
    -------------------------------------------------------------------------- */
 
