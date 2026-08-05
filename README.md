@@ -131,6 +131,15 @@ in the nav, the hero, the closing card and the footer on both pages. There is no
 email capture form. If you add a second CTA, give it a different job (the only
 other one is "Read the benchmarks") or it will read as two buttons competing.
 
+## Bar charts
+
+Every bar on the site is `<span class="track"><span class="fill" style="width:N%">`,
+styled by **class**, never by element name. A previous pass renamed the fill
+element from `<i>` to `<span>` and left `.gapbar i` / `.ch-track i` behind, which
+silently emptied every bar on the hero and all three proof charts: the markup was
+still there, the widths were still right, and nothing rendered. If you touch the
+bar markup, grep the stylesheet for the class, and look at the page afterwards.
+
 ## Editing content
 
 Every number on both pages traces to the pre-seed deck and keeps its qualifier
