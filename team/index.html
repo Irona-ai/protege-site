@@ -3,23 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>About Protégé: the team behind the benchmarks</title>
-<meta name="description" content="Protégé is seven people building eval-gated post-training for repeated LLM workflows. Founded by Tushar Jain, previously Applied Scientist II at Amazon and ML engineer at Verisk.">
+<title>About Protégé — the team behind the post-training benchmarks</title>
+<meta name="description" content="Protégé is seven people building eval-driven LLM post-training and routing. Founded by Tushar Jain, previously Applied Scientist II at Amazon and ML engineer at Verisk.">
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
 
+<link rel="canonical" href="https://protege.sh/team/">
+
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Protégé">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://protege.sh/team/">
 <meta property="og:title" content="About Protégé: the team behind the benchmarks">
 <meta property="og:description" content="Seven people building eval-gated post-training for repeated LLM workflows.">
 <meta property="og:image" content="https://protege.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Protégé — eval-driven post-training and LLM routing">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Protégé: the team behind the benchmarks">
+<meta name="twitter:description" content="Seven people building eval-gated post-training for repeated LLM workflows.">
+<meta name="twitter:image" content="https://protege.sh/assets/og.png">
+<meta name="twitter:image:alt" content="Protégé — eval-driven post-training and LLM routing">
 
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/site.css">
-<script>document.documentElement.className += " js";</script>
+<script>document.documentElement.className+=" js";setTimeout(function(){if(!window.__protegeReady)document.documentElement.className=document.documentElement.className.replace(" js","")},2500)</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": "https://protege.sh/team/#webpage",
+      "url": "https://protege.sh/team/",
+      "name": "About Protégé",
+      "isPartOf": {
+        "@id": "https://protege.sh/#website"
+      },
+      "about": {
+        "@id": "https://protege.sh/#organization"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://protege.sh/team/#tushar",
+      "name": "Tushar Jain",
+      "jobTitle": "Founder & CEO, Chief Scientist",
+      "worksFor": {
+        "@id": "https://protege.sh/#organization"
+      },
+      "email": "tushar@protege.sh",
+      "sameAs": [
+        "https://scholar.google.com/citations?user=Aq7k140AAAAJ&hl=en"
+      ],
+      "alumniOf": [
+        {
+          "@type": "Organization",
+          "name": "Amazon"
+        },
+        {
+          "@type": "Organization",
+          "name": "Verisk"
+        }
+      ],
+      "knowsAbout": [
+        "LLM post-training",
+        "active learning",
+        "large-scale optimization",
+        "applied machine learning"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://protege.sh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "About",
+          "item": "https://protege.sh/team/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -45,7 +124,7 @@
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
 <section class="page-head">
   <div class="wrap">
@@ -74,7 +153,7 @@
           ML Scientist then ML Engineer II at Verisk from 2018 to 2021, shipping applied ML into regulated
           enterprise where the audit trail matters as much as the model.</p>
         <p>That sequence is the whole thesis. The expensive part of replacing a frontier model is not the
-          training run, it is knowing what "correct" means for a specific workflow and proving it before you
+          training run, it is knowing what &ldquo;correct&rdquo; means for a specific workflow and proving it before you
           spend a GPU hour. Protégé productizes that judgment as an eval-gated ladder, and publishes the runs
           that lose alongside the ones that win.</p>
         <p>Angel investor in XYMA Analytics.</p>

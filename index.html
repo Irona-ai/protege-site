@@ -3,23 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Protégé: own the models that do your repeated work</title>
-<meta name="description" content="Protégé finds the repeated work inside your AI spend, proves the cheapest route that clears your eval, and hands back a model you own that keeps improving from its own production traces.">
+<title>Protégé — LLM post-training and routing that cuts inference cost</title>
+<meta name="description" content="Protégé finds the repeated work in your LLM spend, proves the cheapest route that clears your eval, and hands back an open model you own. Published benchmarks with n counts.">
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
 
+<link rel="canonical" href="https://protege.sh/">
+
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Protégé">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://protege.sh/">
 <meta property="og:title" content="Protégé: own the models that do your repeated work">
-<meta property="og:description" content="Find the repeated work in your AI spend. Prove the cheapest route that clears your eval. Keep the weights.">
+<meta property="og:description" content="Find the repeated work in your LLM spend. Prove the cheapest route that clears your eval. Keep the weights.">
 <meta property="og:image" content="https://protege.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Protégé — eval-driven post-training and LLM routing">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Protégé: own the models that do your repeated work">
+<meta name="twitter:description" content="Find the repeated work in your LLM spend. Prove the cheapest route that clears your eval. Keep the weights.">
+<meta name="twitter:image" content="https://protege.sh/assets/og.png">
+<meta name="twitter:image:alt" content="Protégé — eval-driven post-training and LLM routing">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
-<script>document.documentElement.className += " js";</script>
+<script>document.documentElement.className+=" js";setTimeout(function(){if(!window.__protegeReady)document.documentElement.className=document.documentElement.className.replace(" js","")},2500)</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://protege.sh/#organization",
+      "name": "Protégé",
+      "alternateName": "Protege",
+      "url": "https://protege.sh/",
+      "logo": "https://protege.sh/assets/og.png",
+      "description": "Protégé finds the repeated work inside a company's LLM spend, proves the cheapest route that clears their eval, and hands back an open model they own.",
+      "email": "tushar@protege.sh",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "addressCountry": "US"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Tushar Jain",
+        "jobTitle": "Founder",
+        "sameAs": [
+          "https://scholar.google.com/citations?user=Aq7k140AAAAJ&hl=en"
+        ],
+        "alumniOf": [
+          {
+            "@type": "Organization",
+            "name": "Amazon"
+          },
+          {
+            "@type": "Organization",
+            "name": "Verisk"
+          }
+        ]
+      },
+      "knowsAbout": [
+        "LLM post-training",
+        "supervised fine-tuning",
+        "reinforcement learning from production traces",
+        "LLM routing",
+        "eval-driven optimization",
+        "inference cost reduction"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://protege.sh/#website",
+      "url": "https://protege.sh/",
+      "name": "Protégé",
+      "publisher": {
+        "@id": "https://protege.sh/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://protege.sh/#webpage",
+      "url": "https://protege.sh/",
+      "name": "Protégé: own the models that do your repeated work",
+      "isPartOf": {
+        "@id": "https://protege.sh/#website"
+      },
+      "about": {
+        "@id": "https://protege.sh/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://protege.sh/#faq",
+      "isPartOf": {
+        "@id": "https://protege.sh/#webpage"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Isn't this consulting?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The ladder is productized. Rungs two, three and four are live software, and every engagement returns reusable rungs to the route library, so forward-deployed hours per engagement fall as coverage rises. The self-learning endpoint is the terminal product."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "CoreWeave already has Weights & Biases, OpenPipe and the GPUs.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They assembled it to fill their own capacity, because post-training is a feature that sells compute. We stay neutral across providers, we hand back the weights, and we lead with the eval rather than the cluster. Different buyer, different incentive."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Our enterprise won't let you train on its data.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It does not have to. The cross-customer asset is the route library, a map of which rung clears which task shape, and it contains zero customer content. Per-tenant learning stays isolated and is sold as the feature."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Self-learning in a regulated environment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is a human approval gate on by default. No checkpoint promotes without sign-off in regulated tenants, and every retrain is versioned, diffable and rollback-able with a full audit trail. Silent self-redeployment is an audit finding, not a feature."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to the labeled data and the weights if we stop working together?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The weights and the eval contract are yours to keep and to run anywhere. Regulated data stays inside your warehouse throughout; on the 39,962-row labeling run we only needed the problem shape, meaning the domain, the labels, a few examples and the eval contract."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -45,7 +179,7 @@
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
 <!-- ── HERO ───────────────────────────────────────────────────────────────── -->
 <section class="hero">
@@ -66,13 +200,13 @@
           <span class="who">Frontier generalist</span>
           <span class="amt">$18.00<span>/ M tokens</span></span>
         </div>
-        <div class="gapbar"><i style="width:100%"></i></div>
+        <div class="gapbar"><span class="fill" style="width:100%"></span></div>
 
         <div class="gaprow">
           <span class="who">Open specialist</span>
           <span class="amt">$0.20<span>/ M tokens</span></span>
         </div>
-        <div class="gapbar is-heat"><i style="width:1.1%"></i></div>
+        <div class="gapbar is-heat"><span class="fill" style="width:1.1%"></span></div>
 
         <p class="gapmult">
           <b>90&times;</b>
@@ -88,7 +222,10 @@
 <!-- ── USED BY ────────────────────────────────────────────────────────────── -->
 <section class="usedby tight">
   <div class="wrap">
-    <p class="usedby-label">Used by teams at</p>
+    <div class="usedby-head">
+      <p class="usedby-label">Used by teams at</p>
+      <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false">Pause</button>
+    </div>
     <div class="logo-marquee">
       <div class="logo-marquee-inner">
         <ul class="logo-track">
@@ -203,8 +340,8 @@
         </li>
       </ol>
 
-      <div class="loop-ring" aria-hidden="true">
-        <svg viewBox="0 0 200 200" width="100%" height="100%">
+      <div class="loop-ring">
+        <svg viewBox="0 0 200 200" aria-hidden="true" width="100%" height="100%">
           <circle cx="100" cy="100" r="76" fill="none" stroke="var(--border-muted)" stroke-width="1.5"
                   stroke-dasharray="5 7"></circle>
           <g fill="var(--heat-100)">
@@ -216,6 +353,8 @@
         </svg>
         <p class="loop-center">production<br>traces feed<br>the next pass</p>
       </div>
+
+      <p class="loop-close">Step 04 feeds step 01: the deployed model's own traces are the next capture.</p>
     </div>
   </div>
 </section>
@@ -230,73 +369,70 @@
     </div>
 
     <article class="result reveal">
-      <p class="result-kicker">Higher quality on the same benchmark</p>
-      <h3 class="result-num">+13%<span> eval score against Sonnet 4.6</span></h3>
+      <h3 class="result-num">+13%<span> higher eval score than Sonnet 4.6, on its own benchmark</span></h3>
       <div class="chart">
         <div class="ch-row">
           <span class="ch-name">Baseline open model</span>
-          <span class="ch-track"><i style="width:57%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:57%"></span></span>
           <span class="ch-val">0.400</span>
         </div>
         <div class="ch-row">
           <span class="ch-name">Sonnet 4.6</span>
-          <span class="ch-track"><i style="width:80%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:80%"></span></span>
           <span class="ch-val">0.557</span>
         </div>
         <div class="ch-row is-us">
           <span class="ch-name">Protégé</span>
-          <span class="ch-track"><i style="width:90%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:90%"></span></span>
           <span class="ch-val">0.630</span>
         </div>
         <p class="ch-foot">Write-heavy CRM tasks on Zapier AutomationBench, partial credit, n=10. Bars run 0 to
           0.70. Protégé scored 1.13&times; Sonnet's score at a quarter of its cost.</p>
       </div>
-      <a class="tlink" href="benchmarks/#automationbench">See the run <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="tlink" href="benchmarks/#automationbench">See the AutomationBench run <span class="arw" aria-hidden="true">&rarr;</span></a>
     </article>
 
     <article class="result reveal">
-      <p class="result-kicker">Fast enough to sit in the request path</p>
-      <h3 class="result-num">5.2&times;<span> lower p50 latency</span></h3>
+      <h3 class="result-num">5.2&times;<span> lower p50 latency, fast enough for the request path</span></h3>
       <div class="chart">
         <div class="ch-row">
           <span class="ch-name">Sonnet API</span>
-          <span class="ch-track"><i style="width:100%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:100%"></span></span>
           <span class="ch-val">1.94s</span>
         </div>
         <div class="ch-row is-us">
           <span class="ch-name">Protégé, 8B on Fireworks</span>
-          <span class="ch-track"><i style="width:19%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:19%"></span></span>
           <span class="ch-val">369ms</span>
         </div>
         <p class="ch-foot">30-task operations holdout, 90-trajectory production-style serving run. The same
           slice also came in 6.0&times; cheaper on measured token cost.</p>
       </div>
-      <a class="tlink" href="benchmarks/#operations">See the ladder <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="tlink" href="benchmarks/#operations">See the operations ladder <span class="arw" aria-hidden="true">&rarr;</span></a>
     </article>
 
     <article class="result reveal">
-      <p class="result-kicker">Cheap enough to run the whole table</p>
-      <h3 class="result-num">50&times;<span> lower cost than Opus</span></h3>
+      <h3 class="result-num">50&times;<span> lower cost than Opus, cheap enough to run the whole table</span></h3>
       <div class="chart">
         <div class="ch-row is-us">
           <span class="ch-name">Protégé, 30B</span>
-          <span class="ch-track"><i style="width:2%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:2%"></span></span>
           <span class="ch-val">$2.82</span>
         </div>
         <div class="ch-row">
           <span class="ch-name">Sonnet</span>
-          <span class="ch-track"><i style="width:8.6%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:8.6%"></span></span>
           <span class="ch-val">$12</span>
         </div>
         <div class="ch-row">
           <span class="ch-name">Opus</span>
-          <span class="ch-track"><i style="width:100%"></i></span>
+          <span class="ch-track"><span class="fill" style="width:100%"></span></span>
           <span class="ch-val">$140</span>
         </div>
         <p class="ch-foot">39,962 rows labeled three ways, full cost accounting, bars to scale. Cheap did not
           mean worse: 99.30% three-way agreement, and the regulated data never left the warehouse.</p>
       </div>
-      <a class="tlink" href="benchmarks/#labeling">See the accounting <span class="arw" aria-hidden="true">&rarr;</span></a>
+      <a class="tlink" href="benchmarks/#labeling">See the labeling cost accounting <span class="arw" aria-hidden="true">&rarr;</span></a>
     </article>
 
     <div class="proof-foot reveal">
@@ -377,7 +513,7 @@
       </div>
 
       <figure class="ladder-figure reveal">
-        <svg viewBox="0 0 460 290" role="img" width="100%" height="auto"
+        <svg viewBox="0 0 460 290" role="img" width="100%"
              aria-label="Eval score against tokens burned per eval on a logarithmic scale, measured on a 30-task operations holdout. Raw 8B scores 0.9560 at 1.39 million tokens. Adding JSON prefill scores 0.9667 at 74 thousand tokens. Adding slash-no-think scores 0.9598 at 38 thousand tokens. Supervised fine-tuning scores 0.9733 at 39 thousand tokens.">
           <g class="fig-grid">
             <line x1="60" y1="220" x2="440" y2="220"></line>
@@ -423,13 +559,13 @@
 <section id="compounds" class="band-lighter">
   <div class="wrap">
     <div class="section-head reveal">
-      <h2 class="t-h3">Anyone can fine-tune once. Three things compound.</h2>
+      <h2 class="t-h3">Anyone can fine&#8209;tune once. Three things compound.</h2>
       <p class="lede">Enterprises get isolation. We get a compounding map of what works, without ever holding their data.</p>
     </div>
 
     <div class="compound-layout">
       <figure class="ladder-figure reveal">
-        <svg viewBox="0 0 460 250" role="img" width="100%" height="auto"
+        <svg viewBox="0 0 460 250" role="img" width="100%"
              aria-label="Quality over time. Every other API stays flat between vendor releases. The Protégé endpoint steps upward at each tick as production traces are fed back.">
           <g class="fig-axis">
             <text x="26" y="24">QUALITY</text>
@@ -484,7 +620,7 @@
       <p class="lede">They optimize the model. We optimize the decision of whether to touch the model at all.</p>
     </div>
 
-    <div class="table-scroll reveal">
+    <div class="table-scroll reveal" tabindex="0" role="region" aria-label="Capability comparison across vendors">
       <table class="grid">
         <caption class="sr-only">Capability comparison between Applied Compute, Osmosis, TrainLoop and Protégé</caption>
         <thead>
@@ -506,7 +642,7 @@
             <td class="y">Yes</td><td class="y">Hourly</td><td class="n">Research only</td><td class="us y">Yes</td>
           </tr>
           <tr>
-            <th scope="row">Eval-gated ladder that can conclude "don't train"</th>
+            <th scope="row">Eval-gated ladder that can conclude &ldquo;don&rsquo;t train&rdquo;</th>
             <td class="n">Not claimed</td><td class="n">Not claimed</td><td class="n">Not claimed</td><td class="us y">Yes</td>
           </tr>
           <tr>
@@ -521,7 +657,7 @@
       </table>
     </div>
 
-    <p class="table-note reveal">"Not claimed" means the capability is absent from public materials, not that the vendor is incapable of it. The category is real and well funded: Applied Compute has raised $100M, Osmosis $7M, TrainLoop went through YC W25. All three sell training.</p>
+    <p class="table-note reveal">&ldquo;Not claimed&rdquo; means the capability is absent from public materials, not that the vendor is incapable of it. The category is real and well funded: Applied Compute has raised $100M, Osmosis $7M, TrainLoop went through YC W25. All three sell training.</p>
   </div>
 </section>
 

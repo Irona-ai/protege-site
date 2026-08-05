@@ -3,23 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Benchmarks: three domains, full runs, including the failures</title>
-<meta name="description" content="Full results for Protégé across Zapier AutomationBench, a 30-task operations holdout, and a 39,962-row warehouse labeling run. n counts, standard deviations, cost accounting, and the runs that lost.">
+<title>LLM post-training benchmarks: three domains, full runs, and the failures — Protégé</title>
+<meta name="description" content="Measured LLM routing and post-training results across Zapier AutomationBench, a 30-task operations holdout, and 39,962 labeled rows. n counts, standard deviations, losing runs included.">
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light">
 
+<link rel="canonical" href="https://protege.sh/benchmarks/">
+
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="Protégé">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://protege.sh/benchmarks/">
-<meta property="og:title" content="Protégé benchmarks: three domains, full runs">
+<meta property="og:title" content="Protégé benchmarks: three domains, full runs, including the failures">
 <meta property="og:description" content="n counts, standard deviations, cost accounting, and the runs that lost.">
 <meta property="og:image" content="https://protege.sh/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Protégé benchmark results across three domains">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Protégé benchmarks: three domains, full runs, including the failures">
+<meta name="twitter:description" content="n counts, standard deviations, cost accounting, and the runs that lost.">
+<meta name="twitter:image" content="https://protege.sh/assets/og.png">
+<meta name="twitter:image:alt" content="Protégé benchmark results across three domains">
+<meta property="article:published_time" content="2026-08-05T00:00:00Z">
+<meta property="article:modified_time" content="2026-08-05T00:00:00Z">
+<meta property="article:author" content="Tushar Jain">
 
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/site.css">
-<script>document.documentElement.className += " js";</script>
+<script>document.documentElement.className+=" js";setTimeout(function(){if(!window.__protegeReady)document.documentElement.className=document.documentElement.className.replace(" js","")},2500)</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://protege.sh/benchmarks/#article",
+      "headline": "Protégé benchmarks: three domains, full runs, including the failures",
+      "description": "Measured LLM routing and post-training results across Zapier AutomationBench, a 30-task operations holdout, and 39,962 labeled rows. n counts, standard deviations, cost accounting, losing runs included.",
+      "url": "https://protege.sh/benchmarks/",
+      "mainEntityOfPage": "https://protege.sh/benchmarks/",
+      "image": "https://protege.sh/assets/og.png",
+      "datePublished": "2026-08-05",
+      "dateModified": "2026-08-05",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Tushar Jain",
+        "jobTitle": "Founder, Protégé"
+      },
+      "publisher": {
+        "@id": "https://protege.sh/#organization"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "LLM post-training"
+        },
+        {
+          "@type": "Thing",
+          "name": "LLM routing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Inference cost reduction"
+        },
+        {
+          "@type": "Thing",
+          "name": "Eval-driven optimization"
+        }
+      ],
+      "keywords": "LLM post-training, supervised fine-tuning, LLM routing, eval-driven optimization, inference cost reduction, open model fine-tuning"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://protege.sh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Benchmarks",
+          "item": "https://protege.sh/benchmarks/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -45,7 +125,7 @@
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
 <section class="page-head">
   <div class="wrap">
@@ -65,15 +145,15 @@
         <h3>Reasoning-heavy API tasks, 4 tasks, partial credit <span class="scale">bars run 0.00 to 0.50</span></h3>
         <div class="bar">
           <span class="who">Baseline</span>
-          <span class="track"><i class="fill" style="width:16.8%"></i><span class="val">0.084 &plusmn;0.073 &middot; <b>$0.095</b></span></span>
+          <span class="track"><span class="fill" style="width:16.8%"></span></span><span class="val">0.084 &plusmn;0.073 &middot; <b>$0.095</b></span>
         </div>
         <div class="bar">
           <span class="who">Sonnet 4.6</span>
-          <span class="track"><i class="fill" style="width:32%"></i><span class="val">0.160 &plusmn;0.009 &middot; <b>$0.707</b></span></span>
+          <span class="track"><span class="fill" style="width:32%"></span></span><span class="val">0.160 &plusmn;0.009 &middot; <b>$0.707</b></span>
         </div>
         <div class="bar is-us">
           <span class="who">Protégé optimized</span>
-          <span class="track"><i class="fill" style="width:62.6%"></i><span class="val">0.313 &plusmn;0.110 &middot; <b>$0.128</b> &middot; n=10</span></span>
+          <span class="track"><span class="fill" style="width:62.6%"></span></span><span class="val">0.313 &plusmn;0.110 &middot; <b>$0.128</b> &middot; n=10</span>
         </div>
       </div>
 
@@ -81,15 +161,15 @@
         <h3>Write-heavy CRM tasks, 7 tasks, partial credit <span class="scale">bars run 0.00 to 1.00</span></h3>
         <div class="bar">
           <span class="who">Baseline</span>
-          <span class="track"><i class="fill" style="width:40%"></i><span class="val">0.400 &plusmn;0.067 &middot; <b>$0.230</b></span></span>
+          <span class="track"><span class="fill" style="width:40%"></span></span><span class="val">0.400 &plusmn;0.067 &middot; <b>$0.230</b></span>
         </div>
         <div class="bar">
           <span class="who">Sonnet 4.6</span>
-          <span class="track"><i class="fill" style="width:55.7%"></i><span class="val">0.557 &plusmn;0.066 &middot; <b>$1.12</b></span></span>
+          <span class="track"><span class="fill" style="width:55.7%"></span></span><span class="val">0.557 &plusmn;0.066 &middot; <b>$1.12</b></span>
         </div>
         <div class="bar is-us">
           <span class="who">Protégé optimized</span>
-          <span class="track"><i class="fill" style="width:63%"></i><span class="val">0.630 &plusmn;0.087 &middot; n=10</span></span>
+          <span class="track"><span class="fill" style="width:63%"></span></span><span class="val">0.630 &plusmn;0.087 &middot; n=10</span>
         </div>
       </div>
     </div>
@@ -106,7 +186,7 @@
     <h2 class="t-h4">Operations workflows, one rung at a time</h2>
     <p class="bmk-sub">Most of the waste here was output-mode waste, not missing intelligence. Each row adds one rung to the row above it.</p>
 
-    <div class="table-scroll">
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Eval score, latency and token burn by rung">
       <table class="grid">
         <caption class="sr-only">Eval score, latency and token burn by rung on a 30-task operations holdout</caption>
         <thead>
@@ -171,15 +251,15 @@
         <h3>Full-table cost, all 39,962 rows <span class="scale">linear scale</span></h3>
         <div class="bar is-us">
           <span class="who">Protégé 30B</span>
-          <span class="track"><i class="fill" style="width:2%"></i><span class="val"><b>$2.82</b></span></span>
+          <span class="track"><span class="fill" style="width:2%"></span></span><span class="val"><b>$2.82</b></span>
         </div>
         <div class="bar">
           <span class="who">Sonnet</span>
-          <span class="track"><i class="fill" style="width:8.6%"></i><span class="val"><b>$12</b> &middot; 4.4&times; higher</span></span>
+          <span class="track"><span class="fill" style="width:8.6%"></span></span><span class="val"><b>$12</b> &middot; 4.4&times; higher</span>
         </div>
         <div class="bar">
           <span class="who">Opus</span>
-          <span class="track"><i class="fill" style="width:100%"></i><span class="val"><b>$140</b> &middot; 50&times; higher</span></span>
+          <span class="track"><span class="fill" style="width:100%"></span></span><span class="val"><b>$140</b> &middot; 50&times; higher</span>
         </div>
       </div>
     </div>

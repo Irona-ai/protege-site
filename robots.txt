@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# AI crawlers are welcome. The benchmarks are meant to be cited.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Disallow: /assets/og.html
+
+Sitemap: https://protege.sh/sitemap.xml
