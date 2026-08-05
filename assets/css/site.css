@@ -533,6 +533,8 @@ section.tight { padding-block: clamp(48px, 6vw, 72px); }
 }
 
 .hero-fig {
+  transform-style: preserve-3d;
+  will-change: transform;
   border: 1px solid var(--border-muted);
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(255, 255, 255, .86), rgba(251, 250, 249, .9));

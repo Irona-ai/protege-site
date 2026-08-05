@@ -146,6 +146,25 @@ It stops drawing when the hero scrolls out of view or the tab is hidden, and
 under `prefers-reduced-motion` it paints one static frame and never animates.
 A radial mask keeps it out from under the headline.
 
+**Pointer interaction.** Dots inside `PROXIMITY` tint toward heat; a fast
+pointer shoves the ones it passes; a click sends a shockwave. This is the React
+Bits DotGrid behaviour ported without GSAP: instead of the inertia plugin each
+dot is a damped spring (`STIFF`/`DAMP`) integrated per frame, which gives the
+same throw-and-settle in a few lines. Two things keep it cheap: untinted dots
+are one path with a single fill, and the loop parks itself when every dot is at
+rest and the pointer has left. The canvas is `pointer-events: none` and listens
+on `window`, so it never eats a click.
+
+**The tilted figure.** `.hero-fig` rotates toward the pointer, the TiltedCard
+behaviour without `motion`: pointer offset from centre becomes rotateX/rotateY,
+eased with a lerp each frame. Both effects are off under
+`prefers-reduced-motion` and on coarse pointers.
+
+**Verifying either of these in a headless pane is a trap.** requestAnimationFrame
+is throttled when nothing is painting, so reading `.style.transform` or sampling
+canvas pixels between screenshots shows nothing happening. Force a frame (take a
+screenshot) after the pointer event, then read.
+
 **The job list** (`.roles-slot`) cycles with pure CSS on an `inline-grid`, so
 every option occupies the same cell and the line never reflows as it changes.
 The full list is in a `sr-only` span for screen readers; with reduced motion the
