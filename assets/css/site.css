@@ -1214,13 +1214,17 @@ table.grid {
    FAQ
    -------------------------------------------------------------------------- */
 
-.faq { margin-top: 40px; max-width: 76ch; border-top: 1px solid var(--border-muted); }
+.faq { margin-top: 36px; border-top: 1px solid var(--border-muted); }
 .faq details { border-bottom: 1px solid var(--border-faint); }
+/* the whole row is the target, so it gets a hover tint and a little inset,
+   otherwise a full-width click area reads as dead space */
+.faq details { transition: background .18s var(--ease); }
+.faq details:hover { background: var(--black-a4); }
 .faq summary {
   list-style: none;
   cursor: pointer;
   padding-block: 22px;
-  padding-right: 48px;
+  padding-inline: 14px 52px;
   position: relative;
   font-size: 18px;
   line-height: 27px;
@@ -1235,7 +1239,7 @@ table.grid {
 .faq summary::after {
   content: "";
   position: absolute;
-  right: 6px;
+  right: 16px;
   top: 50%;
   width: 13px;
   height: 1.5px;
@@ -1247,6 +1251,7 @@ table.grid {
 .faq summary:hover::before,
 .faq summary:hover::after { background: var(--heat-text); }
 .faq details > p {
+  padding-inline: 14px;
   padding-bottom: 24px;
   max-width: 72ch;
   font-size: 15px;
@@ -1254,18 +1259,16 @@ table.grid {
   color: var(--text-2);
 }
 
+/* balance splits this into two lines even though it fits on one; the FAQ
+   heading is short enough to run full width, so opt it out */
+#faq .section-head { max-width: none; }
+#faq .section-head h2 { text-wrap: pretty; }
+
 /* --------------------------------------------------------------------------
    CLOSE + FORM
    -------------------------------------------------------------------------- */
 
-.close .wrap {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-}
-.close h2 { max-width: 15ch; }
-.close .lede { margin-top: 16px; max-width: 44ch; }
+.close .endcta { max-width: 820px; margin-inline: auto; }
 
 .book-card { padding-top: 4px; }
 .book-card .btn { height: 48px; font-size: 16px; padding-inline: 28px; }
@@ -1530,6 +1533,7 @@ table.grid {
   text-transform: uppercase;
   color: var(--heat-text);
 }
+.endcta h2,
 .endcta h3 {
   margin-top: 14px;
   font-size: clamp(24px, 3vw, 32px);
@@ -1544,7 +1548,17 @@ table.grid {
   line-height: 26px;
   color: var(--text-2);
 }
-.endcta .btn { margin-top: 26px; }
+.endcta-body + .endcta-body { margin-top: 12px; }
+.endcta .btn { margin-top: 28px; }
+.endcta-fine {
+  margin: 14px auto 0;
+  max-width: 56ch;
+  font-size: 13.5px;
+  line-height: 21px;
+  color: var(--text-3);
+}
+.endcta-fine + .endcta-fine { margin-top: 8px; }
+.endcta-fine .tlink { font-size: 13.5px; }
 
 /* --------------------------------------------------------------------------
    REVEAL
