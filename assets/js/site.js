@@ -35,6 +35,39 @@
     }
   }
 
+  /* The four-step loop.
+     One selection drives two controls: the orbiting icons and the step
+     headers. Both are real buttons over the same <ol>, so the section works
+     with the orbit hidden (below 900px) and with JS absent (every step is
+     open, because .is-active is what collapses them). */
+  var loop = document.querySelector(".loop");
+  if (loop) {
+    var steps = [].slice.call(loop.querySelectorAll(".ls"));
+    var orbits = [].slice.call(loop.querySelectorAll(".orbit-dot"));
+
+    function select(n) {
+      steps.forEach(function (li) {
+        var on = li.getAttribute("data-step") === String(n);
+        li.classList.toggle("is-active", on);
+        li.querySelector(".ls-head").setAttribute("aria-expanded", String(on));
+      });
+      orbits.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-step") === String(n)));
+      });
+    }
+
+    steps.forEach(function (li) {
+      li.querySelector(".ls-head").addEventListener("click", function () {
+        select(li.getAttribute("data-step"));
+      });
+    });
+    orbits.forEach(function (b) {
+      b.addEventListener("click", function () {
+        select(b.getAttribute("data-step"));
+      });
+    });
+  }
+
   /* Interactive dot field.
      Ported from the React/GSAP DotGrid behaviour without the libraries: dots
      tint toward heat inside `proximity`, a fast pointer shoves the ones it

@@ -113,11 +113,23 @@ under it says so. Do not swap the scale for invented customer numbers.
 (`bars run 0 to 0.70`, `bars to scale`). A bar chart without its scale printed is
 a lie by omission; if you change a number, change the width and the scale note.
 
-**The loop** (`.loop`) is a 2x2 grid read clockwise with the ring in the gutter.
-Step 3 is named Train, but the copy says most bounded workflows never reach a
-training run, because that is what the benchmarks support. Keep the label and the
-caveat together. The ring is `aria-hidden` decoration over a real `<ol>`, and it
-is dropped below 900px where a 2x2 ring is no longer a ring.
+**The loop** (`.loop`) is a 2x2 grid read clockwise, with four step icons
+orbiting the gutter between the columns. Step 3 is named Train, but the copy says
+most bounded workflows never reach a training run, because that is what the
+benchmarks support. Keep the label and the caveat together.
+
+The orbit is a *control*, not decoration: each icon is a button that opens its
+step, and the step headers open the same steps, with one `select()` keeping both
+in sync. The path is never drawn. Below 900px the orbit is dropped, because a 2x2
+ring in one column is not a ring, and a sentence carries the cycle instead.
+
+Two traps live in that CSS. The dots are spaced by a negative `animation-delay`
+of a quarter cycle each, **not** by putting `var(--i)` in the keyframe: `calc()`
+holding an unregistered custom property will not interpolate, and three of the
+four dots silently sit at the path start. The static `offset-distance` still
+carries the spacing when the animation is off, which is what reduced motion
+gets. And `.ls-detail` collapses only under `.js` — without it every step ships
+open rather than as four headings with no content.
 
 ## Navigation
 

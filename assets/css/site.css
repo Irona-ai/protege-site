@@ -1128,62 +1128,154 @@ table.grid {
 
 /* --------------------------------------------------------------------------
    THE LOOP
-   A 2x2 cycle read clockwise, with the ring in the gutter between the cards.
-   The ring is decoration over a real reading order, so it is aria-hidden and
-   the list stays a plain ordered list underneath.
+   A 2x2 cycle read clockwise, with four step icons orbiting the gutter
+   between the columns. The orbit is a control, not decoration: each icon is
+   a button that opens its step, and the steps open on their own headers too.
+   The path itself is never drawn.
    -------------------------------------------------------------------------- */
 
 .loop { position: relative; margin-top: clamp(36px, 4.5vw, 56px); }
+
 .loop-steps {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(24px, 3vw, 36px) clamp(150px, 20vw, 260px);
+  gap: clamp(20px, 2.4vw, 28px) clamp(300px, 26vw, 340px);
 }
-.loop-steps li {
-  border-top: 2px solid var(--heat-100);
-  padding-top: 18px;
-}
+.loop-steps .ls { border-top: 2px solid var(--border-muted); transition: border-color .2s var(--ease); }
+.loop-steps .ls.is-active { border-top-color: var(--heat-100); }
 .loop-steps li:nth-child(3) { grid-column: 2; grid-row: 2; }
 .loop-steps li:nth-child(4) { grid-column: 1; grid-row: 2; }
+
+.ls-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "n mark" "title mark";
+  align-items: center;
+  gap: 2px 12px;
+  width: 100%;
+  padding: 16px 0 14px;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
 .ls-n {
+  grid-area: n;
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .12em;
-  color: var(--heat-text);
+  color: var(--text-3);
+  transition: color .2s var(--ease);
 }
-.loop-steps h3 {
-  margin-top: 8px;
+.ls.is-active .ls-n { color: var(--heat-text); }
+.ls-title {
+  grid-area: title;
   font-size: 22px;
   line-height: 28px;
   letter-spacing: -.02em;
   font-weight: 650;
 }
-.loop-steps p {
-  margin-top: 10px;
+/* a plus that becomes a minus, the same affordance the FAQ uses */
+.ls-mark { grid-area: mark; position: relative; width: 14px; height: 14px; }
+.ls-mark::before, .ls-mark::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1.5px;
+  margin-top: -.75px;
+  background: var(--text-3);
+  transition: transform .25s var(--ease), background .2s var(--ease);
+}
+.ls-mark::after { transform: rotate(90deg); }
+.ls.is-active .ls-mark::after { transform: rotate(0deg); }
+.ls.is-active .ls-mark::before,
+.ls.is-active .ls-mark::after { background: var(--heat-text); }
+.ls-head:hover .ls-title { color: var(--heat-text); }
+
+/* grid-rows 0fr -> 1fr animates a height the browser actually knows */
+/* collapsed only when JS is there to reopen it; without .js every step is
+   open, so the section never ships as four headings and no content */
+.ls-detail { display: grid; grid-template-rows: 1fr; }
+.js .ls-detail {
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .34s var(--ease);
+}
+.ls.is-active .ls-detail { grid-template-rows: 1fr; }
+.ls-detail > p {
+  overflow: hidden;
+  min-height: 0;
   font-size: 14.5px;
   line-height: 23px;
   color: var(--text-2);
   max-width: 44ch;
 }
+.ls.is-active .ls-detail > p { padding-bottom: 18px; }
 
-.loop-ring {
+/* ---- the orbit ---- */
+.loop-orbit {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(150px, 19vw, 240px);
-  aspect-ratio: 1;
+  width: 300px;
+  height: 300px;
   display: grid;
   place-items: center;
-  pointer-events: none;
 }
-.loop-ring svg { position: absolute; inset: 0; }
+.orbit-track { position: absolute; inset: 0; }
+.orbit-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff, var(--bg-lighter));
+  color: var(--text-2);
+  cursor: pointer;
+  box-shadow: var(--lit-x) 6px 16px -10px rgba(38, 38, 38, .4);
+  /* an invisible circle: r=118 about the 150,150 centre of the 300px box */
+  offset-path: path("M 32 150 A 118 118 0 1 1 268 150 A 118 118 0 1 1 32 150");
+  offset-rotate: 0deg;
+  offset-anchor: center center;
+  offset-distance: calc(var(--i) * 25%);
+  transition: color .2s var(--ease), border-color .2s var(--ease),
+              box-shadow .2s var(--ease), scale .2s var(--ease);
+}
+.orbit-dot svg { width: 21px; height: 21px; }
+.orbit-dot:hover { color: var(--heat-text); border-color: var(--heat-24); scale: 1.08; }
+.orbit-dot[aria-pressed="true"] {
+  color: #fff;
+  border-color: var(--heat-text);
+  background: linear-gradient(180deg, var(--heat-text), #bc440c);
+  box-shadow: var(--lit-x) 8px 20px -10px rgba(204, 74, 14, .55);
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .loop-ring svg { animation: ring-turn 44s linear infinite; }
+  .orbit-dot {
+    animation: orbit-run 52s linear infinite;
+    animation-delay: calc(var(--i) * -13s);
+  }
+  .loop-orbit:hover .orbit-dot,
+  .loop-orbit:focus-within .orbit-dot { animation-play-state: paused; }
 }
-@keyframes ring-turn { to { transform: rotate(360deg); } }
+/* 52s is the reference 40s slowed by 30%, and a quarter-cycle negative delay
+   spaces the four. The keyframe must NOT carry var(--i): calc() holding an
+   unregistered custom property will not interpolate, so three of the four
+   dots simply sat at the path start. The static offset-distance above still
+   spaces them when the animation is off. */
+@keyframes orbit-run {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
 .loop-center {
   position: relative;
   text-align: center;
@@ -1193,14 +1285,32 @@ table.grid {
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--text-3);
+  pointer-events: none;
 }
 
+.loop-close { display: none; }
+
+@media (max-width: 1040px) {
+  .loop-steps { gap: 20px clamp(240px, 24vw, 300px); }
+  .loop-orbit { width: 250px; height: 250px; }
+  .orbit-dot { offset-path: path("M 27 125 A 98 98 0 1 1 223 125 A 98 98 0 1 1 27 125"); }
+}
 @media (max-width: 900px) {
-  .loop-steps { grid-template-columns: 1fr; gap: 22px; }
+  .loop-steps { grid-template-columns: 1fr; gap: 0; }
   .loop-steps li:nth-child(3),
   .loop-steps li:nth-child(4) { grid-column: 1; grid-row: auto; }
-  .loop-steps p { max-width: 56ch; }
-  .loop-ring { display: none; }
+  .ls-detail > p { max-width: 58ch; }
+  /* a 2x2 ring in one column is not a ring */
+  .loop-orbit { display: none; }
+  .loop-close {
+    display: block;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-faint);
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--text-2);
+  }
 }
 
 /* --------------------------------------------------------------------------
