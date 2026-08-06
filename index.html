@@ -287,66 +287,55 @@
 <!-- ── THE VILLAIN ────────────────────────────────────────────────────────── -->
 <section class="villain band-lighter">
   <div class="wrap">
-    <h2 class="t-h2 reveal">You pay frontier prices for work that stopped being hard months ago.</h2>
-
-    <p class="villain-lede reveal">One agent loop turns a single user action into dozens of model calls. The
-      calls are bounded, repeated and verifiable, and every one of them is billed at the price of a model that
-      could have written the workflow instead of running it.</p>
+    <div class="section-head reveal">
+      <h2 class="t-h2">You pay frontier prices for work that stopped being hard.</h2>
+      <p class="lede">One agent loop turns a single user action into dozens of model calls, and they are the
+        same few tasks over and over: classify this, route that, pull those fields. Each one is billed at the
+        price of a model that could have written the workflow instead of running it.</p>
+    </div>
 
     <figure class="meter reveal">
       <figcaption class="meter-head">
         <code>classify_intent</code>
-        <span>one bounded call, billed at the frontier rate</span>
+        <span>one task, priced at the frontier rate</span>
       </figcaption>
 
       <div class="rates">
         <div class="rate">
           <span class="rate-who">Frontier generalist</span>
-          <span class="rate-amt">$18.00<span>/ M tokens</span></span>
+          <span class="rate-amt">$18.00<i>/ M tokens</i></span>
         </div>
         <div class="rate is-heat">
-          <span class="rate-who">Open specialist</span>
-          <span class="rate-amt">$0.20<span>/ M tokens</span></span>
+          <span class="rate-who">Specialist for this task</span>
+          <span class="rate-amt">$0.20<i>/ M tokens</i></span>
         </div>
         <div class="rate rate-x">
-          <span class="rate-who">On the bounded, repeated slice</span>
-          <span class="rate-amt">90&times;<span>cheaper</span></span>
+          <span class="rate-who">Same task, same eval</span>
+          <span class="rate-amt">90&times;<i>cheaper</i></span>
         </div>
       </div>
 
       <ol class="meter-scale">
-        <li>
-          <span class="n">1 call</span>
-          <span class="v" style="--s:22px">$0.018</span>
-        </li>
-        <li>
-          <span class="n">1,000</span>
-          <span class="v" style="--s:28px">$18</span>
-        </li>
-        <li>
-          <span class="n">100,000</span>
-          <span class="v" style="--s:38px">$1,800</span>
-        </li>
-        <li>
-          <span class="n">1,000,000</span>
-          <span class="v" style="--s:52px">$18,000</span>
-        </li>
+        <li><span class="n">1 call</span><span class="v" style="--s:22px">$0.018</span></li>
+        <li><span class="n">1,000</span><span class="v" style="--s:28px">$18</span></li>
+        <li><span class="n">100,000</span><span class="v" style="--s:38px">$1,800</span></li>
+        <li class="is-peak"><span class="n">1,000,000</span><span class="v" style="--s:52px">$18,000</span></li>
       </ol>
 
       <p class="meter-punch">
-        The same million calls, routed to an open specialist that clears the same eval:
+        <span>The same million calls, served by a model trained on this one task</span>
         <b>$200</b>
       </p>
 
-      <p class="meter-note">Unit price is a blended frontier serving basis. The specialist figure is that same
-        call at $0.20 per million tokens. The call volumes are a scale, not a customer's bill.</p>
+      <p class="meter-note">Unit price is a blended frontier serving basis; the specialist figure is the same
+        call at $0.20 per million tokens. The call counts are a scale, not a customer's bill.</p>
     </figure>
 
     <div class="villain-note reveal">
       <p><b>Output tokens bill at three to five times input.</b> Cutting what the model generates is the
-        highest-leverage cost line available, and it needs no training run to collect.</p>
-      <p><b>Volume, not novelty, is what you are paying for.</b> The hard part was solved months ago. What
-        remains is the same shape of call, over and over, at a price set for reasoning you no longer need.</p>
+        highest-leverage cost line you have, and it needs no training run to collect.</p>
+      <p><b>You are paying for volume, not intelligence.</b> The hard part was solved months ago. What is left
+        is the same shape of call, over and over, at a price set for reasoning the task no longer needs.</p>
     </div>
   </div>
 </section>

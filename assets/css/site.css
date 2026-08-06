@@ -709,7 +709,6 @@ section.usedby { padding-block: 0 clamp(40px, 5vw, 60px); }
 .rates {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
   margin-top: 22px;
   padding-bottom: 22px;
   border-bottom: 1px solid var(--border-faint);
@@ -725,41 +724,48 @@ section.usedby { padding-block: 0 clamp(40px, 5vw, 60px); }
   color: var(--text-3);
 }
 .rate-amt {
-  display: block;
-  margin-top: 8px;
+  display: flex;
+  align-items: baseline;      /* the unit rides the number's baseline */
+  flex-wrap: wrap;
+  gap: 2px 7px;
+  margin-top: 10px;
   font-family: var(--mono);
-  font-size: 24px;
+  font-size: clamp(20px, 2vw, 24px);
   font-weight: 600;
   letter-spacing: -.02em;
 }
-.rate-amt span {
+.rate-amt i {
+  font-style: normal;
   font-size: 11px;
   font-weight: 500;
-  color: var(--text-3);
-  margin-left: 6px;
   letter-spacing: 0;
+  color: var(--text-3);
+  white-space: nowrap;
 }
 .rate.is-heat .rate-amt,
 .rate.rate-x .rate-amt { color: var(--heat-text); }
+.rate.is-heat .rate-amt i,
+.rate.rate-x .rate-amt i { color: var(--text-3); }
 @media (max-width: 700px) {
   .rates { grid-template-columns: 1fr; gap: 14px; }
   .rate { padding-right: 0; }
-  .rate + .rate { padding-left: 0; border-left: none; padding-top: 14px; border-top: 1px solid var(--border-faint); }
+  .rate + .rate {
+    padding-left: 0; border-left: none;
+    padding-top: 14px; border-top: 1px solid var(--border-faint);
+  }
 }
 
-.meter-scale {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: end;
-}
+/* Narrow first: plain stacked rows, label beside amount. */
+.meter-scale { list-style: none; margin-top: 4px; }
 .meter-scale li {
-  padding: 26px 20px 22px 0;
-  border-top: 1px solid transparent;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 14px;
+  padding-block: 14px;
+  border-top: 1px solid var(--border-faint);
 }
-.meter-scale li + li { padding-left: 20px; border-left: 1px solid var(--border-faint); }
 .meter-scale .n {
-  display: block;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .1em;
@@ -767,38 +773,59 @@ section.usedby { padding-block: 0 clamp(40px, 5vw, 60px); }
   color: var(--text-3);
 }
 .meter-scale .v {
-  display: block;
-  margin-top: 12px;
-  font-size: var(--s, 24px);
+  font-size: clamp(22px, 7vw, 34px);
   line-height: 1;
   letter-spacing: -.04em;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
-.meter-scale li:last-child { background: linear-gradient(180deg, rgba(250, 93, 25, .07), transparent 78%); }
-.meter-scale li:last-child .v { color: var(--heat-text); }
+.meter-scale .is-peak .v { color: var(--heat-text); }
+
+/* Wide: display:contents dissolves the <li> boxes, so all four labels land in
+   grid row 1 and all four amounts in row 2, where align-items:baseline gives
+   them a genuinely shared baseline. Bottom-aligning cells cannot: the amounts
+   are four different sizes, so each box bottom sits a different distance below
+   its own baseline. The fixed grid-row only works at four columns, which is why
+   this is scoped rather than global. */
+@media (min-width: 781px) {
+  .meter-scale {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    align-items: baseline;
+  }
+  .meter-scale li { display: contents; }
+  .meter-scale .n { grid-row: 1; padding: 26px 20px 0 0; border-top: none; }
+  .meter-scale .v { grid-row: 2; padding: 14px 20px 24px 0; font-size: var(--s, 24px); }
+  .meter-scale li + li .n,
+  .meter-scale li + li .v { padding-left: 20px; border-left: 1px solid var(--border-faint); }
+  .meter-scale .is-peak .n,
+  .meter-scale .is-peak .v { background: linear-gradient(180deg, rgba(250, 93, 25, .07), transparent 90%); }
+}
 
 .meter-punch {
   margin-top: 22px;
-  padding: 18px 20px;
+  padding: 18px 22px;
   border-radius: 6px;
   background: var(--heat-6);
   border: 1px solid var(--heat-24);
   color: var(--accent-black);
-  font-size: 16px;
-  line-height: 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px 24px;
+  gap: 6px 24px;
+  font-size: 16px;
+  line-height: 24px;
 }
+.meter-punch span { max-width: 52ch; }
 .meter-punch b {
-  font-size: 34px;
+  font-size: clamp(28px, 4vw, 34px);
   line-height: 1;
   letter-spacing: -.04em;
   color: var(--heat-text);
 }
+
 .meter-note {
   margin-top: 16px;
   font-size: 13px;
