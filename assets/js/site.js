@@ -2,7 +2,16 @@
 (function () {
   "use strict";
 
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var reduce = motionQuery.matches;
+  /* Toggling the OS setting mid-session used to leave the field, the tilt and
+     the reveals in their old mode until a reload. Everything else on the page
+     is pure CSS and re-evaluates on its own. */
+  var onMotionChange = [];
+  motionQuery.addEventListener("change", function (ev) {
+    reduce = ev.matches;
+    onMotionChange.forEach(function (fn) { try { fn(reduce); } catch (e) {} });
+  });
 
   /* Nav hairline: the sentinel is 96px tall so it stays taller than the
      observer's negative rootMargin. A shorter sentinel can never intersect,
@@ -36,34 +45,40 @@
   }
 
   /* The four-step loop.
-     One selection drives two controls: the orbiting icons and the step
-     headers. Both are real buttons over the same <ol>, so the section works
-     with the orbit hidden (below 900px) and with JS absent (every step is
-     open, because .is-active is what collapses them). */
+     The orbiting nodes are tabs over one panel, so selection, arrow-key
+     navigation and the roving tabindex all follow the standard pattern. With
+     JS absent every panel is visible (they only carry [hidden] once this
+     runs), so the section never ships as four icons and nothing else. */
   var loop = document.querySelector(".loop");
   if (loop) {
-    var steps = [].slice.call(loop.querySelectorAll(".ls"));
-    var orbits = [].slice.call(loop.querySelectorAll(".orbit-dot"));
+    var tabs = [].slice.call(loop.querySelectorAll(".onode"));
+    var panes = [].slice.call(loop.querySelectorAll(".lp"));
+    var panel = loop.querySelector(".loop-panel");
 
-    function select(n) {
-      steps.forEach(function (li) {
-        var on = li.getAttribute("data-step") === String(n);
-        li.classList.toggle("is-active", on);
-        li.querySelector(".ls-head").setAttribute("aria-expanded", String(on));
+    function select(n, moveFocus) {
+      tabs.forEach(function (t) {
+        var on = t.getAttribute("data-step") === String(n);
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && moveFocus) t.focus();
+        if (on && panel) panel.setAttribute("aria-labelledby", t.id);
       });
-      orbits.forEach(function (b) {
-        b.setAttribute("aria-pressed", String(b.getAttribute("data-step") === String(n)));
+      panes.forEach(function (p) {
+        p.hidden = p.getAttribute("data-step") !== String(n);
       });
     }
 
-    steps.forEach(function (li) {
-      li.querySelector(".ls-head").addEventListener("click", function () {
-        select(li.getAttribute("data-step"));
-      });
-    });
-    orbits.forEach(function (b) {
-      b.addEventListener("click", function () {
-        select(b.getAttribute("data-step"));
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(t.getAttribute("data-step")); });
+      t.addEventListener("keydown", function (ev) {
+        var k = ev.key, next = null;
+        if (k === "ArrowRight" || k === "ArrowDown") next = (i + 1) % tabs.length;
+        else if (k === "ArrowLeft" || k === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
+        else if (k === "Home") next = 0;
+        else if (k === "End") next = tabs.length - 1;
+        if (next === null) return;
+        ev.preventDefault();
+        select(tabs[next].getAttribute("data-step"), true);
       });
     });
   }
@@ -97,6 +112,7 @@
     var w = 0, h = 0, dpr = 1, raf = null, live = false;
     var box = { left: 0, top: 0 };   // cached rect: reading it per pointermove
     var parked = false;              // forces a layout flush page-wide
+    var tint = new Float32Array(0);  // preallocated, so frame() allocates nothing
     var ptr = { x: -9999, y: -9999, vx: 0, vy: 0, speed: 0, t: 0, lx: 0, ly: 0, inside: false };
 
     function build() {
@@ -111,6 +127,7 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       dots.length = 0;
       var cols = Math.floor(w / GAP), rows = Math.floor(h / GAP);
+      tint = new Float32Array(cols * rows * 3);   // reused every frame
       var padX = (w - (cols - 1) * GAP) / 2, padY = (h - (rows - 1) * GAP) / 2;
       for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
@@ -139,7 +156,7 @@
       ctx.clearRect(0, 0, w, h);
       var px = ptr.x, py = ptr.y, prox2 = PROXIMITY * PROXIMITY;
       var moving = false;
-      var tinted = [];
+      var tn = 0;
 
       ctx.beginPath();
       for (var i = 0; i < dots.length; i += STRIDE) {
@@ -156,8 +173,8 @@
         var ddx = dots[i] - px, ddy = dots[i + 1] - py;
         var d2 = ddx * ddx + ddy * ddy;
 
-        if (ptr.inside && d2 <= prox2) {
-          tinted.push(x, y, 1 - Math.sqrt(d2) / PROXIMITY);
+        if (ptr.inside && d2 <= prox2 && tn + 3 <= tint.length) {
+          tint[tn++] = x; tint[tn++] = y; tint[tn++] = 1 - Math.sqrt(d2) / PROXIMITY;
         } else {
           ctx.moveTo(x + DOT, y);
           ctx.arc(x, y, DOT, 0, 6.2832);
@@ -166,10 +183,10 @@
       ctx.fillStyle = "rgba(38,38,38,0.16)";
       ctx.fill();
 
-      for (var k = 0; k < tinted.length; k += 3) {
-        var t = tinted[k + 2];
+      for (var k = 0; k < tn; k += 3) {
+        var t = tint[k + 2];
         ctx.beginPath();
-        ctx.arc(tinted[k], tinted[k + 1], DOT + t * 1.6, 0, 6.2832);
+        ctx.arc(tint[k], tint[k + 1], DOT + t * 1.6, 0, 6.2832);
         ctx.fillStyle = "rgba(250,93,25," + (0.16 + t * 0.72).toFixed(3) + ")";
         ctx.fill();
       }
@@ -251,6 +268,20 @@
     } else {
       window.addEventListener("resize", reflow, { passive: true });
     }
+    /* ResizeObserver does not fire when a window moves between a Retina and a
+       non-Retina display: the CSS box is unchanged, only the device ratio is,
+       so the canvas would stay blurry. */
+    try {
+      window.matchMedia("(resolution: " + (window.devicePixelRatio || 1) + "dppx)")
+        .addEventListener("change", reflow);
+    } catch (e) {}
+
+    onMotionChange.push(function (isReduced) {
+      if (isReduced) {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        frame();
+      } else if (!parked) { wake(); }
+    });
 
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
@@ -312,6 +343,9 @@
     }, { passive: true });
 
     function tiltReset() { tgt.rx = 0; tgt.ry = 0; tgt.s = 1; tiltWake(); }
+    onMotionChange.push(function (isReduced) {
+      if (isReduced) { cur.rx = cur.ry = 0; cur.s = 1; tiltEl.style.transform = ""; }
+    });
     tiltEl.addEventListener("pointerleave", tiltReset, { passive: true });
     tiltEl.addEventListener("pointercancel", tiltReset, { passive: true });
     window.addEventListener("blur", tiltReset, { passive: true });

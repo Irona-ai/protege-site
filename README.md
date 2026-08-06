@@ -113,8 +113,9 @@ under it says so. Do not swap the scale for invented customer numbers.
 (`bars run 0 to 0.70`, `bars to scale`). A bar chart without its scale printed is
 a lie by omission; if you change a number, change the width and the scale note.
 
-**The loop** (`.loop`) is a 2x2 grid read clockwise, with four step icons
-orbiting the gutter between the columns. Step 3 is named Train, but the copy says
+**The loop** (`.loop`) is an orbit: four icon+heading nodes ride a ring, the ring
+pauses on hover or focus and raises that node's heading, and clicking swaps the
+detail card below. Step 3 is named Train, but the copy says
 most bounded workflows never reach a training run, because that is what the
 benchmarks support. Keep the label and the caveat together.
 
@@ -123,13 +124,19 @@ step, and the step headers open the same steps, with one `select()` keeping both
 in sync. The path is never drawn. Below 900px the orbit is dropped, because a 2x2
 ring in one column is not a ring, and a sentence carries the cycle instead.
 
-Two traps live in that CSS. The dots are spaced by a negative `animation-delay`
-of a quarter cycle each, **not** by putting `var(--i)` in the keyframe: `calc()`
-holding an unregistered custom property will not interpolate, and three of the
-four dots silently sit at the path start. The static `offset-distance` still
-carries the spacing when the animation is off, which is what reduced motion
-gets. And `.ls-detail` collapses only under `.js` — without it every step ships
-open rather than as four headings with no content.
+Nodes are placed by angle, not `offset-path`: `path()` takes no percentages, so
+it cannot follow a fluid container. The angle `--a` is registered with `@property`
+so it can interpolate; without that registration the animation is skipped and each
+node keeps its static angle, which is already the evenly-spaced layout. Spacing
+comes from a negative `animation-delay`, never from `var(--i)` inside a keyframe.
+
+The nodes are tabs over one panel (`role="tablist"`), so arrow keys, Home and End
+work and the roving tabindex follows the selection. The panels carry `[hidden]`
+only once JS runs, so with the script absent every step is readable.
+
+Watch the mobile block: the desktop reveal rules set a `transform` on
+`.onode-label`, and every state has to undo it below 900px or the selected node's
+label lands on top of its own icon.
 
 ## Navigation
 

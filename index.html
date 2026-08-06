@@ -354,65 +354,90 @@
 <!-- ── THE LOOP ───────────────────────────────────────────────────────────── -->
 <section id="how" class="loopsec">
   <div class="wrap">
-    <div class="section-head reveal">
-      <h2 class="t-h3">Four steps, and the fourth one starts the first again.</h2>
-      <p class="lede">Offline work lands first, because it carries no production surface, no latency budget
-        and no rollback risk. It still yields the eval contract that everything after it is measured against.</p>
+    <div class="section-head loop-head reveal">
+      <h2 class="t-h3">The model gets better every week you run it.</h2>
+      <p class="lede">Four steps, and the fourth feeds the first. Every request your replaced workflow serves
+        becomes training data for the next pass, which is why this is the only endpoint you own whose quality
+        goes up between vendor releases.</p>
     </div>
 
     <div class="loop reveal">
-      <ol class="loop-steps">
-        <li class="ls is-active" data-step="1">
-          <button class="ls-head" type="button" aria-expanded="true" aria-controls="ls-body-1">
-            <span class="ls-n">01</span>
-            <span class="ls-title">Capture</span>
-            <span class="ls-mark" aria-hidden="true"></span>
-          </button>
-          <div class="ls-detail" id="ls-body-1"><p>Point us at two months of inference spend and the traces behind it. We find which workflows repeat, what they cost, and which ones are bounded enough to replace.</p></div>
-        </li>
-        <li class="ls" data-step="2">
-          <button class="ls-head" type="button" aria-expanded="false" aria-controls="ls-body-2">
-            <span class="ls-n">02</span>
-            <span class="ls-title">Evaluate</span>
-            <span class="ls-mark" aria-hidden="true"></span>
-          </button>
-          <div class="ls-detail" id="ls-body-2"><p>An eval contract fixes what a correct answer is, with n counts and standard deviations, before a single optimization runs. Without it, nothing that follows is measurable.</p></div>
-        </li>
-        <li class="ls" data-step="3">
-          <button class="ls-head" type="button" aria-expanded="false" aria-controls="ls-body-3">
-            <span class="ls-n">03</span>
-            <span class="ls-title">Train</span>
-            <span class="ls-mark" aria-hidden="true"></span>
-          </button>
-          <div class="ls-detail" id="ls-body-3"><p>Only when the eval says you have to. We climb the ladder rung by rung and stop at the cheapest one that clears, so most bounded workflows never reach a training run at all.</p></div>
-        </li>
-        <li class="ls" data-step="4">
-          <button class="ls-head" type="button" aria-expanded="false" aria-controls="ls-body-4">
-            <span class="ls-n">04</span>
-            <span class="ls-title">Deploy</span>
-            <span class="ls-mark" aria-hidden="true"></span>
-          </button>
-          <div class="ls-detail" id="ls-body-4"><p>Downloadable weights or a hosted endpoint, your choice. From there it feeds on its own production traces, which is where the next pass gets its data.</p></div>
-        </li>
-      </ol>
-
-      <!-- The orbit is a second way into the same four steps, so it is a real
-           control, not decoration. No path is drawn. -->
+      <!-- The orbit is the control. Icon and heading travel together; hovering or
+           focusing one stops the ring and raises its heading. -->
       <div class="loop-orbit">
-        <div class="orbit-track">
-          <button class="orbit-dot" type="button" data-step="1" style="--i:0"
-                  aria-pressed="true"><span class="orbit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span><span class="sr-only">Open step 01, Capture</span></button>
-          <button class="orbit-dot" type="button" data-step="2" style="--i:1"
-                  aria-pressed="false"><span class="orbit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h11M4 12h7M4 17h13"/><path d="m16 10 2.5 2.5L23 8"/></svg></span><span class="sr-only">Open step 02, Evaluate</span></button>
-          <button class="orbit-dot" type="button" data-step="3" style="--i:2"
-                  aria-pressed="false"><span class="orbit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 13.9 8.6 19.5 10.5 13.9 12.4 12 18 10.1 12.4 4.5 10.5 10.1 8.6z"/><path d="M18.5 16.5 19.3 18.7 21.5 19.5 19.3 20.3 18.5 22.5 17.7 20.3 15.5 19.5 17.7 18.7z"/></svg></span><span class="sr-only">Open step 03, Train</span></button>
-          <button class="orbit-dot" type="button" data-step="4" style="--i:3"
-                  aria-pressed="false"><span class="orbit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V10m0 0 4 4m-4-4-4 4"/><path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/></svg></span><span class="sr-only">Open step 04, Deploy</span></button>
+        <svg class="loop-arc" viewBox="0 0 520 520" aria-hidden="true">
+          <defs>
+            <marker id="loopArrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="4.6" markerHeight="4.6"
+                    orient="auto">
+              <path d="M0 0 L12 6 L0 12 z" fill="var(--heat-100)"/>
+            </marker>
+          </defs>
+          <!-- an arc that stops short of closing, so it reads as a cycle -->
+          <path class="loop-arc-line" d="M 260 60 A 200 200 0 1 1 178 78"/>
+          <path class="loop-arc-head" d="M 196 70 A 200 200 0 0 1 178 78" marker-end="url(#loopArrow)"/>
+          <path class="loop-chev" d="M -7 -7 L 3 0 L -7 7" transform="translate(438.2 350.8) rotate(117)"/>
+          <path class="loop-chev" d="M -7 -7 L 3 0 L -7 7" transform="translate(169.2 438.2) rotate(207)"/>
+          <path class="loop-chev" d="M -7 -7 L 3 0 L -7 7" transform="translate(81.8 169.2) rotate(297)"/>
+          <path class="loop-chev" d="M -7 -7 L 3 0 L -7 7" transform="translate(350.8 81.8) rotate(387)"/>
+          <path class="loop-arc-run"  d="M 260 60 A 200 200 0 1 1 190 73"/>
+        </svg>
+
+        <div class="orbit-track" role="tablist" aria-label="The four steps of the loop">
+          <button class="onode" type="button" role="tab" id="tab-1" data-step="1" style="--i:0"
+                  aria-selected="true" aria-controls="loop-panel" tabindex="0">
+            <span class="onode-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="i-fill" d="M3.5 13.5h17v5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M3.5 13.5h4l1.5 3h6l1.5-3h4v5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M12 3v7.5m0 0 3-3m-3 3-3-3"/></svg></span>
+            <span class="onode-label" aria-hidden="true"><b>01</b> Capture</span>
+            <span class="sr-only">Step 01, Capture</span>
+          </button>
+          <button class="onode" type="button" role="tab" id="tab-2" data-step="2" style="--i:1"
+                  aria-selected="false" aria-controls="loop-panel" tabindex="-1">
+            <span class="onode-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="i-fill" x="4" y="3" width="12" height="18" rx="2"/><path d="M16 12.5V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5"/><path d="M7.5 8h5M7.5 12h3"/><path d="m14 17.5 2 2 4-4.5"/></svg></span>
+            <span class="onode-label" aria-hidden="true"><b>02</b> Evaluate</span>
+            <span class="sr-only">Step 02, Evaluate</span>
+          </button>
+          <button class="onode" type="button" role="tab" id="tab-3" data-step="3" style="--i:2"
+                  aria-selected="false" aria-controls="loop-panel" tabindex="-1">
+            <span class="onode-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="i-fill" d="M4 20h4v-6H4zm6 0h4v-9h-4zm6 0h4V7h-4z"/><path d="M4 20h4v-6H4zm6 0h4v-9h-4zm6 0h4V7h-4z"/><path d="m17 2.5.85 2.15L20 5.5l-2.15.85L17 8.5l-.85-2.15L14 5.5l2.15-.85z"/></svg></span>
+            <span class="onode-label" aria-hidden="true"><b>03</b> Train</span>
+            <span class="sr-only">Step 03, Train</span>
+          </button>
+          <button class="onode" type="button" role="tab" id="tab-4" data-step="4" style="--i:3"
+                  aria-selected="false" aria-controls="loop-panel" tabindex="-1">
+            <span class="onode-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="i-fill" x="3" y="14" width="18" height="6.5" rx="2"/><rect x="3" y="14" width="18" height="6.5" rx="2"/><path d="M6.5 17.2h.01M9.5 17.2h.01"/><path d="M12 10.5V3m0 0 3.2 3.2M12 3 8.8 6.2"/><path d="M16.5 9.5a5.5 5.5 0 0 0-1.8-3.2M19.4 7.6a8.5 8.5 0 0 0-2.6-4.4"/></svg></span>
+            <span class="onode-label" aria-hidden="true"><b>04</b> Deploy</span>
+            <span class="sr-only">Step 04, Deploy</span>
+          </button>
         </div>
-        <p class="loop-center">production<br>traces feed<br>the next pass</p>
+
+        <p class="loop-center">production traces<br>feed the next pass</p>
       </div>
 
-      <p class="loop-close">Step 04 feeds step 01: the deployed model's own traces are the next capture.</p>
+      <div class="loop-panel" id="loop-panel" role="tabpanel" aria-labelledby="tab-1">
+        <div class="lp" data-step="1">
+          <p class="lp-n">Step 01</p>
+          <h3 class="lp-title">Capture</h3>
+          <p class="lp-body">Send two months of inference spend and the traces behind it. You get back a map of which workflows actually repeat, what each one costs you, and which are bounded enough to replace.</p>
+          <a class="btn btn-primary btn-sm" href="#audit">Request the route audit <span class="arw" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="lp" data-step="2" hidden>
+          <p class="lp-n">Step 02</p>
+          <h3 class="lp-title">Evaluate</h3>
+          <p class="lp-body">Before anything is optimized, an eval contract fixes what a correct answer is for your workflow, with n counts and standard deviations. Skip it and every number that follows is decoration.</p>
+          <a class="btn btn-primary btn-sm" href="#method">See the ladder <span class="arw" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="lp" data-step="3" hidden>
+          <p class="lp-n">Step 03</p>
+          <h3 class="lp-title">Train</h3>
+          <p class="lp-body">Only if the eval says you have to. We climb rung by rung and stop at the cheapest one that clears, which is why most bounded workflows never reach a training run at all.</p>
+          <a class="btn btn-primary btn-sm" href="benchmarks/">Read the benchmarks <span class="arw" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="lp" data-step="4" hidden>
+          <p class="lp-n">Step 04</p>
+          <h3 class="lp-title">Deploy</h3>
+          <p class="lp-body">Weights you can download or an endpoint we host, your call. From then on it learns from its own production traces, and those traces are what the next pass captures.</p>
+          <a class="btn btn-primary btn-sm" href="#compounds">What compounds <span class="arw" aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
